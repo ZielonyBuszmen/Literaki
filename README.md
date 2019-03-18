@@ -24,3 +24,8 @@ python backend/index.py
 todo
 ```
 
+
+
+## Ważne info do backendu w pythonie:
+- Każdą funkcję, która ma w definicji `async` trzeba wywoływać se słówkiem kluczowym `await`
+- Każda funkcja, która używa innej funkcji z `await`, musi mieć prefix w definicji `async`

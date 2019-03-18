@@ -68,13 +68,16 @@
     }
     websocket.onmessage = function (event) {
         data = JSON.parse(event.data);
+        console.log(data)
         switch (data.type) {
-            case 'state':
-                value.textContent = data.value;
+            case 'GAME_PLUS_MINUS_STATE':
+                value.textContent = data.game_counter;
                 break;
-            case 'users':
+            case 'NEW_PLAYER_CONNECTED':
+            case 'PLAYER_DISCONNECTED':
+                console.log(data);
                 users.textContent = (
-                    data.count.toString() + " user" +
+                    data.number_of_players.toString() + " user" +
                     (data.count == 1 ? "" : "s"));
                 break;
             default:
