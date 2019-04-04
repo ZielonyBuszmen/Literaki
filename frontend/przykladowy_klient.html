@@ -55,52 +55,48 @@
     <span class="users">?</span> online
 </div>
 <script>
-    var minus = document.querySelector('.minus'),
-        plus = document.querySelector('.plus'),
-        value = document.querySelector('.value'),
-        users = document.querySelector('.users'),
-        websocket = new WebSocket("ws://127.0.0.1:6789/");
+    let minus = document.querySelector('.minus');
+    let plus = document.querySelector('.plus');
+    let value = document.querySelector('.value');
+    let users = document.querySelector('.users');
+    let websocket = new WebSocket("ws://127.0.0.1:6789/");
 
     websocket.onmessage = function (event) {
         data = JSON.parse(event.data);
         console.log(data)
-        switch (data.type) {
-            case 'NEW_THREAD_WAS_OPENED_TO_YOU':
-                const port = data.port;
-                console.log('tworze nowy websocket dla portu '+port+' ...');
-                const ws = new WebSocket("ws://127.0.0.1:" + port + "/");
-                console.log('gotowy websocket dla portu '+port+'!');
-
-
-                minus.onclick = function (event) {
-                    ws.send(JSON.stringify({action: 'minus'}));
+        if (data.type === 'NEW_THREAD_WAS_OPENED_TO_YOU') {
+            const port = data.port;
+            const ws = new WebSocket("ws://127.0.0.1:" + port + "/");
+            console.log('stworzono websocket dla portu ' + port + '!');
+            minus.onclick = (event) => {
+                ws.send(JSON.stringify({action: 'minus'}));
+            };
+            plus.onclick = (event) => {
+                ws.send(JSON.stringify({action: 'plus'}));
+            };
+            ws.onmessage = event => {
+                data = JSON.parse(event.data);
+                console.log(data)
+                switch (data.type) {
+                    case 'GAME_PLUS_MINUS_STATE':
+                        value.textContent = data.game_counter;
+                        break;
+                    case 'NEW_PLAYER_CONNECTED':
+                    case 'PLAYER_DISCONNECTED':
+                        users.textContent = (
+                            data.number_of_players.toString() + " user" +
+                            (data.count == 1 ? "" : "s"));
+                        break;
+                    case 'NEW_THREAD_WAS_OPENED_TO_YOU':
+                        const port = data.port;
+                        break;
+                    default:
+                        console.warn(
+                            "INFO => ", data);
                 }
-                plus.onclick = function (event) {
-                    ws.send(JSON.stringify({action: 'plus'}));
-                }
-                ws.onmessage = function (event) {
-                    data = JSON.parse(event.data);
-                    console.log(data)
-                    switch (data.type) {
-                        case 'GAME_PLUS_MINUS_STATE':
-                            value.textContent = data.game_counter;
-                            break;
-                        case 'NEW_PLAYER_CONNECTED':
-                        case 'PLAYER_DISCONNECTED':
-                            users.textContent = (
-                                data.number_of_players.toString() + " user" +
-                                (data.count == 1 ? "" : "s"));
-                            break;
-                        case 'NEW_THREAD_WAS_OPENED_TO_YOU':
-                            const port = data.port;
-                            break;
-                        default:
-                            console.error(
-                                "unsupported event", data);
-                    }
-                }
-
-                break;
+            }
+        } else if (data.type === 'WAITING_FOR_SECOND_PLAYER') {
+             users.textContent = "Waiting for second player";
         }
     };
 </script>
