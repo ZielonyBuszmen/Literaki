@@ -52,7 +52,7 @@
     <div class="plus button">+</div>
 </div>
 <div class="state">
-    <span class="users">?</span> online
+    <span class="users">?</span>
 </div>
 <script>
     let minus = document.querySelector('.minus');
@@ -85,7 +85,7 @@
                     case 'PLAYER_DISCONNECTED':
                         users.textContent = (
                             data.number_of_players.toString() + " user" +
-                            (data.count == 1 ? "" : "s"));
+                            (data.count == 1 ? "" : "s") + ' online');
                         break;
                     case 'NEW_THREAD_WAS_OPENED_TO_YOU':
                         const port = data.port;
@@ -96,7 +96,7 @@
                 }
             }
         } else if (data.type === 'WAITING_FOR_SECOND_PLAYER') {
-             users.textContent = "Waiting for second player";
+             users.textContent = "Waiting for second user";
         }
     };
 </script>

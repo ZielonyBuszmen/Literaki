@@ -34,7 +34,7 @@ class PlayersManager:
 
             thread.start()
         else:
-            self.players[0].get_websocket().send(json.dumps({'type': 'WAITING_FOR_SECOND_PLAYER'}))
+            await self.players[0].get_websocket().send(json.dumps({'type': 'WAITING_FOR_SECOND_PLAYER'}))
 
     async def unregister_player(self, websocket):
         # delete player with websocket from array
