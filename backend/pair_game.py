@@ -6,68 +6,64 @@ from functools import partial
 # aby wszystko dzialalo, ten plik musi byc klasa, a my musimy tworzyc nowe obiekty tej klasy, i kazdy obiekt bedzie gra, czy jakos tka
 from websockets import WebSocketServerProtocol
 
-STATE = {'game_counter': 0}
 
-USERS = set()
+class Gierka:
+    def __init__(self):
+        self.STATE = {'game_counter': 0}
+        self.USERS = set()
 
+    def state_event(self):
+        return json.dumps({'type': 'GAME_PLUS_MINUS_STATE', **self.STATE})
 
-def state_event():
-    return json.dumps({'type': 'GAME_PLUS_MINUS_STATE', **STATE})
+    def users_event(self):
+        return json.dumps({'type': 'NEW_PLAYER_CONNECTED', 'number_of_players': len(self.USERS)})
 
+    async def notify_state(self):
+        if self.USERS:  # asyncio.wait doesn't accept an empty list
+            message = self.state_event()
+            await asyncio.wait([user.send(message) for user in self.USERS])
 
-def users_event():
-    return json.dumps({'type': 'NEW_PLAYER_CONNECTED', 'number_of_players': len(USERS)})
+    async def notify_users(self):
+        if self.USERS:  # asyncio.wait doesn't accept an empty list
+            message = self.users_event()
+            await asyncio.wait([user.send(message) for user in self.USERS])
 
+    async def register(self, websocket):
+        self.USERS.add(websocket)
+        await self.notify_users()
 
-async def notify_state():
-    if USERS:  # asyncio.wait doesn't accept an empty list
-        message = state_event()
-        await asyncio.wait([user.send(message) for user in USERS])
-
-
-async def notify_users():
-    if USERS:  # asyncio.wait doesn't accept an empty list
-        message = users_event()
-        await asyncio.wait([user.send(message) for user in USERS])
-
-
-async def register(websocket):
-    USERS.add(websocket)
-    await notify_users()
-
-
-async def unregister(websocket):
-    USERS.remove(websocket)
-    await notify_users()
-
-
+    async def unregister(self, websocket):
+        self.USERS.remove(websocket)
+        await self.notify_users()
 
 
 # główna funkcja programu
 async def pair_game(game_manager, websocket, path):
     await websocket.send(json.dumps({'type': 'rozpaczeto gre parowa,'}))
-    await register(websocket)
+    await game_manager.register(websocket)
     try:
-        await websocket.send(state_event())
+        await websocket.send(game_manager.state_event())
         async for message in websocket:
             data = json.loads(message)
             if data['action'] == 'minus':
-                STATE['game_counter'] -= 1
-                await notify_state()
+                game_manager.STATE['game_counter'] -= 1
+                await game_manager.notify_state()
             elif data['action'] == 'plus':
-                STATE['game_counter'] += 1
-                await notify_state()
+                game_manager.STATE['game_counter'] += 1
+                await game_manager.notify_state()
     finally:
-        await unregister(websocket)
+        await game_manager.unregister(websocket)
 
 
 def start_pair_thread(port=6790):
     print("port dany do nowej gry ", port)
 
+    gierka = Gierka()
+
     # todo - tutaj tworzymy nowy obiekt gry - nie ma tego jeszcze, trzeba doprogramowac
     pair_game_with_arg = partial(
         pair_game,
-        "to argument game_manager"  # todo - tutaj przekazujemy ten parametr i odbieramy go w funkcji pair_game jako game_manager
+        gierka  # argument game_manager
     )
 
     loop = asyncio.new_event_loop()
@@ -75,4 +71,3 @@ def start_pair_thread(port=6790):
     asyncio.get_event_loop().run_until_complete(
         websockets.serve(pair_game_with_arg, 'localhost', port))
     asyncio.get_event_loop().run_forever()
-
