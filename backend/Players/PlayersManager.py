@@ -29,8 +29,8 @@ class PlayersManager:
 
             thread = threading.Thread(target=start_pair_thread,
                                       args=(port,))
-            await first.get_websocket().send(json.dumps({'type': 'NEW_THREAD_WAS_OPENED_TO_YOU', 'new_port': port}))
-            await second.get_websocket().send(json.dumps({'type': 'NEW_THREAD_WAS_OPENED_TO_YOU', 'new_port': port}))
+            await first.get_websocket().send(json.dumps({'type': 'NEW_THREAD_WAS_OPENED_TO_YOU', 'port': port}))
+            await second.get_websocket().send(json.dumps({'type': 'NEW_THREAD_WAS_OPENED_TO_YOU', 'port': port}))
 
             thread.start()
 

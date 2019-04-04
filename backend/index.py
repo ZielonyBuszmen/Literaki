@@ -35,7 +35,6 @@ async def counter(websocket, path):
         await websocket.send(game.get_state())
         async for message in websocket:
             action = json.loads(message)
-            await game.game(action)
     finally:
         await players_manager.unregister_player(websocket)
 

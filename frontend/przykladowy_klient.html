@@ -60,29 +60,47 @@
         value = document.querySelector('.value'),
         users = document.querySelector('.users'),
         websocket = new WebSocket("ws://127.0.0.1:6789/");
-    minus.onclick = function (event) {
-        websocket.send(JSON.stringify({action: 'minus'}));
-    }
-    plus.onclick = function (event) {
-        websocket.send(JSON.stringify({action: 'plus'}));
-    }
+
     websocket.onmessage = function (event) {
         data = JSON.parse(event.data);
         console.log(data)
         switch (data.type) {
-            case 'GAME_PLUS_MINUS_STATE':
-                value.textContent = data.game_counter;
+            case 'NEW_THREAD_WAS_OPENED_TO_YOU':
+                const port = data.port;
+                console.log('tworze nowy websocket dla portu '+port+' ...');
+                const ws = new WebSocket("ws://127.0.0.1:" + port + "/");
+                console.log('gotowy websocket dla portu '+port+'!');
+
+
+                minus.onclick = function (event) {
+                    ws.send(JSON.stringify({action: 'minus'}));
+                }
+                plus.onclick = function (event) {
+                    ws.send(JSON.stringify({action: 'plus'}));
+                }
+                ws.onmessage = function (event) {
+                    data = JSON.parse(event.data);
+                    console.log(data)
+                    switch (data.type) {
+                        case 'GAME_PLUS_MINUS_STATE':
+                            value.textContent = data.game_counter;
+                            break;
+                        case 'NEW_PLAYER_CONNECTED':
+                        case 'PLAYER_DISCONNECTED':
+                            users.textContent = (
+                                data.number_of_players.toString() + " user" +
+                                (data.count == 1 ? "" : "s"));
+                            break;
+                        case 'NEW_THREAD_WAS_OPENED_TO_YOU':
+                            const port = data.port;
+                            break;
+                        default:
+                            console.error(
+                                "unsupported event", data);
+                    }
+                }
+
                 break;
-            case 'NEW_PLAYER_CONNECTED':
-            case 'PLAYER_DISCONNECTED':
-                console.log(data);
-                users.textContent = (
-                    data.number_of_players.toString() + " user" +
-                    (data.count == 1 ? "" : "s"));
-                break;
-            default:
-                console.error(
-                    "unsupported event", data);
         }
     };
 </script>

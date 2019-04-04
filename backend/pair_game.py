@@ -2,19 +2,19 @@ import asyncio
 import json
 import websockets
 
+# aby wszystko dzialalo, ten plik musi byc klasa, a my musimy tworzyc nowe obiekty tej klasy, i kazdy obiekt bedzie gra, czy jakos tka
 
-
-STATE = {'value': 0}
+STATE = {'game_counter': 0}
 
 USERS = set()
 
 
 def state_event():
-    return json.dumps({'type': 'state', **STATE})
+    return json.dumps({'type': 'GAME_PLUS_MINUS_STATE', **STATE})
 
 
 def users_event():
-    return json.dumps({'type': 'users', 'count': len(USERS)})
+    return json.dumps({'type': 'NEW_PLAYER_CONNECTED', 'number_of_players': len(USERS)})
 
 
 async def notify_state():
@@ -61,6 +61,9 @@ async def pair_game(websocket, path):
 
 def start_pair_thread(port=6790):
     print("port dany do nowej gry ", port)
+
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
     asyncio.get_event_loop().run_until_complete(
         websockets.serve(pair_game, 'localhost', port))
     asyncio.get_event_loop().run_forever()
