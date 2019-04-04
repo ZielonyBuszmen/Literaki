@@ -1,8 +1,10 @@
 import asyncio
 import json
 import websockets
+from functools import partial
 
 # aby wszystko dzialalo, ten plik musi byc klasa, a my musimy tworzyc nowe obiekty tej klasy, i kazdy obiekt bedzie gra, czy jakos tka
+from websockets import WebSocketServerProtocol
 
 STATE = {'game_counter': 0}
 
@@ -42,7 +44,7 @@ async def unregister(websocket):
 
 
 # główna funkcja programu
-async def pair_game(websocket, path):
+async def pair_game(game_manager, websocket, path):
     await websocket.send(json.dumps({'type': 'rozpaczeto gre parowa,'}))
     await register(websocket)
     try:
@@ -50,10 +52,10 @@ async def pair_game(websocket, path):
         async for message in websocket:
             data = json.loads(message)
             if data['action'] == 'minus':
-                STATE['value'] -= 1
+                STATE['game_counter'] -= 1
                 await notify_state()
             elif data['action'] == 'plus':
-                STATE['value'] += 1
+                STATE['game_counter'] += 1
                 await notify_state()
     finally:
         await unregister(websocket)
@@ -62,9 +64,15 @@ async def pair_game(websocket, path):
 def start_pair_thread(port=6790):
     print("port dany do nowej gry ", port)
 
+    # todo - tutaj tworzymy nowy obiekt gry - nie ma tego jeszcze, trzeba doprogramowac
+    pair_game_with_arg = partial(
+        pair_game,
+        "to argument game_manager"  # todo - tutaj przekazujemy ten parametr i odbieramy go w funkcji pair_game jako game_manager
+    )
+
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
     asyncio.get_event_loop().run_until_complete(
-        websockets.serve(pair_game, 'localhost', port))
+        websockets.serve(pair_game_with_arg, 'localhost', port))
     asyncio.get_event_loop().run_forever()
 
