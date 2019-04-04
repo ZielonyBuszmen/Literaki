@@ -17,7 +17,7 @@ pip install websockets
 ## Uruhomienie
 - **Backend (serwer)** - serwer uruchomimy komendą
 ```
-python backend/index.py 
+python run.py 
 ```
 - **Frontend (klient)** - klienta uruchomimy komendą: 
 ```
