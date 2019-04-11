@@ -64,7 +64,7 @@
     websocket.onmessage = function (event) {
         data = JSON.parse(event.data);
         console.log(data)
-        if (data.type === 'NEW_THREAD_WAS_OPENED_TO_YOU') {
+        if (data.type === 'BE_NEW_THREAD_WAS_OPENED_TO_YOU') {
             const port = data.port;
             const ws = new WebSocket("ws://127.0.0.1:" + port + "/");
             console.log('stworzono websocket dla portu ' + port + '!');
@@ -78,16 +78,16 @@
                 data = JSON.parse(event.data);
                 console.log(data)
                 switch (data.type) {
-                    case 'GAME_PLUS_MINUS_STATE':
+                    case 'BE_GAME_PLUS_MINUS_STATE':
                         value.textContent = data.game_counter;
                         break;
-                    case 'NEW_PLAYER_CONNECTED':
-                    case 'PLAYER_DISCONNECTED':
+                    case 'BE_NEW_PLAYER_CONNECTED':
+                    case 'BE_PLAYER_DISCONNECTED':
                         users.textContent = (
                             data.number_of_players.toString() + " user" +
                             (data.count == 1 ? "" : "s") + ' online');
                         break;
-                    case 'NEW_THREAD_WAS_OPENED_TO_YOU':
+                    case 'BE_NEW_THREAD_WAS_OPENED_TO_YOU':
                         const port = data.port;
                         break;
                     default:
@@ -95,7 +95,7 @@
                             "INFO => ", data);
                 }
             }
-        } else if (data.type === 'WAITING_FOR_SECOND_PLAYER') {
+        } else if (data.type === 'BE_WAITING_FOR_SECOND_PLAYER') {
              users.textContent = "Waiting for second user";
         }
     };

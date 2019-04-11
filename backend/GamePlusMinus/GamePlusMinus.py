@@ -1,7 +1,7 @@
 import logging
 import asyncio
 
-from backend.messages import game_plus_minus_state
+from backend.actions import game_plus_minus_state
 
 logging.basicConfig()
 

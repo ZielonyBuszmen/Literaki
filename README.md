@@ -1,10 +1,8 @@
 # Literaki
 
-Todo Krzycha:
-- Sprawdzic kod, ktory nie jest uzywany i go albo wyrzucic, albo zrefaktorowac tak, by byl uzywany w nowym konstrukcie pair_game
-    - Player nie jest używany
-    - część kodu z PlayerManager też nie jest używane. PlayerManager powinien zmienic nazwę na lobby, czy jakoś tak
-    - GamePlusMinus nie jest wcale używane, ale można zrefaktorować to z kodem z pair_game
+Todo Backend:
+- GamePlusMinus nie jest wcale używane, ale można zrefaktoryzować i połączyć z kodem z pair_game
+- plik pair_game powinien być w folderze GamePlusMinus
 
 
 ## Instalacja

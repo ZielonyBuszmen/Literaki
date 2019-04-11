@@ -3,7 +3,7 @@ import threading
 
 from backend.consts import PORT_TO_NEW_GAME
 from backend.pair_game import start_pair_thread
-from backend.messages import new_player_connected, player_disconnected, new_thread_was_opened, waiting_for_second_player
+from backend.actions import new_player_connected, player_disconnected, new_thread_was_opened, waiting_for_second_player
 
 
 class Lobby:

@@ -15,10 +15,10 @@ class Gierka:
         self.USERS = set()
 
     def state_event(self):
-        return json.dumps({'type': 'GAME_PLUS_MINUS_STATE', **self.STATE})
+        return json.dumps({'type': 'BE_GAME_PLUS_MINUS_STATE', **self.STATE})
 
     def users_event(self):
-        return json.dumps({'type': 'NEW_PLAYER_CONNECTED', 'number_of_players': len(self.USERS)})
+        return json.dumps({'type': 'BE_NEW_PLAYER_CONNECTED', 'number_of_players': len(self.USERS)})
 
     async def notify_state(self):
         if self.USERS:  # asyncio.wait doesn't accept an empty list
