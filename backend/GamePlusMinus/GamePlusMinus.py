@@ -23,7 +23,7 @@ class GamePlusMinus:
 
     async def notify_state(self):
         message = game_plus_minus_state(self.game_counter)
-        await self.players.notify_players(message)
+        await self.players.notify_all_players(message)
 
     def get_state(self):
         return game_plus_minus_state(self.game_counter)

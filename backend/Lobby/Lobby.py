@@ -14,38 +14,35 @@ class Lobby:
     async def register_new_player(self, websocket):
         self.players.append(websocket)
         message = new_player_connected(self.count_players())
-        await self.notify_players(message)
-        await self.create_new_game()
+        await self.notify_all_players(message)
+
+        if self.count_players() == 2:
+            await self.create_new_game()
+        else:
+            await self.notify_all_players(waiting_for_second_player())
 
     async def create_new_game(self):
-        if len(self.players) == 2:
-            first_player = self.players.pop(0)
-            second_player = self.players.pop(0)
+        first_player = self.players.pop(0)
+        second_player = self.players.pop(0)
 
-            port = self.get_increased_port()
+        port = self.get_increased_port()
 
-            thread = threading.Thread(target=start_pair_thread, args=(port,))
-            thread.start()
-            await first_player.send(new_thread_was_opened(port))
-            await second_player.send(new_thread_was_opened(port))
-        else:
-            await self.players[0].send(waiting_for_second_player())
+        thread = threading.Thread(target=start_pair_thread, args=(port,))
+        thread.start()
+        await first_player.send(new_thread_was_opened(port))
+        await second_player.send(new_thread_was_opened(port))
 
     async def unregister_player(self, websocket):
-        self.players = [player for player in self.players if player != websocket]
         self.players.remove(websocket)
         message = player_disconnected(self.count_players())
-        await self.notify_players(message)
+        await self.notify_all_players(message)
 
-    async def notify_players(self, message):
+    async def notify_all_players(self, message):
         if self.players:
-            await asyncio.wait([self.send_to(player, message) for player in self.players])
+            await asyncio.wait([player.send(message) for player in self.players])
 
     def count_players(self):
         return len(self.players)
-
-    def send_to(self, player, message):
-        return player.send(message)
 
     def get_increased_port(self):
         self.port += 1
