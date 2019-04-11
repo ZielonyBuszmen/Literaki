@@ -6,6 +6,8 @@ from functools import partial
 # aby wszystko dzialalo, ten plik musi byc klasa, a my musimy tworzyc nowe obiekty tej klasy, i kazdy obiekt bedzie gra, czy jakos tka
 from websockets import WebSocketServerProtocol
 
+from backend.GamePlusMinus import GamePlusMinus
+
 
 class Gierka:
     def __init__(self):
@@ -60,7 +62,6 @@ def start_pair_thread(port=6790):
 
     gierka = Gierka()
 
-    # todo - tutaj tworzymy nowy obiekt gry - nie ma tego jeszcze, trzeba doprogramowac
     pair_game_with_arg = partial(
         pair_game,
         gierka  # argument game_manager
