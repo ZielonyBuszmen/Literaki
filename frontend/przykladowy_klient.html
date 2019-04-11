@@ -59,7 +59,7 @@
     let plus = document.querySelector('.plus');
     let value = document.querySelector('.value');
     let users = document.querySelector('.users');
-    let websocket = new WebSocket("ws://127.0.0.1:6789/");
+    let websocket = new WebSocket("ws://127.0.0.1:7000/");
 
     websocket.onmessage = function (event) {
         data = JSON.parse(event.data);

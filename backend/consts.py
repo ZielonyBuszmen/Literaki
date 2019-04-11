@@ -1,0 +1,3 @@
+SERVER = 'localhost'
+START_PORT = 7000
+PORT_TO_NEW_GAME = 7001

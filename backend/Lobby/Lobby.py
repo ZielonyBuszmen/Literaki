@@ -3,11 +3,11 @@ import threading
 import json
 
 from backend.pair_game import start_pair_thread
-from .Player import Player
+from backend.Players.Player import Player
 from backend.messages import new_player_connected, player_disconnected
 
 
-class PlayersManager:
+class Lobby:
     def __init__(self):
         self.players = []
         self.port = 6790
@@ -17,9 +17,9 @@ class PlayersManager:
         self.players.append(player)
         message = new_player_connected(self.count_players())
         await self.notify_players(message)
-        await self.create_new_thread()
+        await self.create_new_game()
 
-    async def create_new_thread(self):
+    async def create_new_game(self):
         if len(self.players) == 2:
             first = self.players.pop(0)
             second = self.players.pop(0)
