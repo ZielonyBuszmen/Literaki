@@ -1,56 +1,52 @@
 import asyncio
 import threading
-import json
 
+from backend.consts import PORT_TO_NEW_GAME
 from backend.pair_game import start_pair_thread
-from backend.Players.Player import Player
-from backend.messages import new_player_connected, player_disconnected
+from backend.messages import new_player_connected, player_disconnected, new_thread_was_opened, waiting_for_second_player
 
 
 class Lobby:
     def __init__(self):
         self.players = []
-        self.port = 6790
+        self.port = PORT_TO_NEW_GAME
 
     async def register_new_player(self, websocket):
-        player = Player(websocket, "Bez nazwy")
-        self.players.append(player)
+        self.players.append(websocket)
         message = new_player_connected(self.count_players())
         await self.notify_players(message)
         await self.create_new_game()
 
     async def create_new_game(self):
         if len(self.players) == 2:
-            first = self.players.pop(0)
-            second = self.players.pop(0)
+            first_player = self.players.pop(0)
+            second_player = self.players.pop(0)
 
-            port = self.port
-            self.port += 1
+            port = self.get_increased_port()
 
-            thread = threading.Thread(target=start_pair_thread,
-                                      args=(port,))
-            await first.get_websocket().send(json.dumps({'type': 'NEW_THREAD_WAS_OPENED_TO_YOU', 'port': port}))
-            await second.get_websocket().send(json.dumps({'type': 'NEW_THREAD_WAS_OPENED_TO_YOU', 'port': port}))
-
+            thread = threading.Thread(target=start_pair_thread, args=(port,))
             thread.start()
+            await first_player.send(new_thread_was_opened(port))
+            await second_player.send(new_thread_was_opened(port))
         else:
-            await self.players[0].get_websocket().send(json.dumps({'type': 'WAITING_FOR_SECOND_PLAYER'}))
+            await self.players[0].send(waiting_for_second_player())
 
     async def unregister_player(self, websocket):
-        # delete player with websocket from array
-        self.players = [player for player in self.players if player.get_websocket() != websocket]
+        self.players = [player for player in self.players if player != websocket]
+        self.players.remove(websocket)
         message = player_disconnected(self.count_players())
         await self.notify_players(message)
 
     async def notify_players(self, message):
-        if self.players:  # asyncio.wait nie akceptuje pustej listy
-            await asyncio.wait([self.sendTo(player, message) for player in self.players])
+        if self.players:
+            await asyncio.wait([self.send_to(player, message) for player in self.players])
 
     def count_players(self):
         return len(self.players)
 
-    def getAllPlayers(self):
-        return self.players
+    def send_to(self, player, message):
+        return player.send(message)
 
-    def sendTo(self, player, message):
-        return player.get_websocket().send(message)
+    def get_increased_port(self):
+        self.port += 1
+        return self.port

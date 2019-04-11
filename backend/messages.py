@@ -13,3 +13,11 @@ def player_disconnected(number_of_players):
 
 def game_plus_minus_state(game_counter):
     return json.dumps({'type': 'GAME_PLUS_MINUS_STATE', 'game_counter': game_counter})
+
+
+def new_thread_was_opened(port):
+    return json.dumps({'type': 'NEW_THREAD_WAS_OPENED_TO_YOU', 'port': port})
+
+
+def waiting_for_second_player():
+    return json.dumps({'type': 'WAITING_FOR_SECOND_PLAYER'})
