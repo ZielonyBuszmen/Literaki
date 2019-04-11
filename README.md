@@ -1,5 +1,10 @@
 # Literaki
 
+Todo Backend:
+- GamePlusMinus nie jest wcale używane, ale można zrefaktoryzować i połączyć z kodem z pair_game
+- plik pair_game powinien być w folderze GamePlusMinus
+
+
 ## Instalacja
 
 ### Backend
@@ -17,7 +22,7 @@ pip install websockets
 ## Uruhomienie
 - **Backend (serwer)** - serwer uruchomimy komendą
 ```
-python backend/index.py 
+python run.py 
 ```
 - **Frontend (klient)** - klienta uruchomimy komendą: 
 ```
@@ -29,3 +34,5 @@ todo
 ## Ważne info do backendu w pythonie:
 - Każdą funkcję, która ma w definicji `async` trzeba wywoływać se słówkiem kluczowym `await`
 - Każda funkcja, która używa innej funkcji z `await`, musi mieć prefix w definicji `async`
+
+- Lobby to poczekalnia, gdzie parujemy graczy
