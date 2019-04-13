@@ -54,12 +54,26 @@
 <div class="state">
     <span class="users">?</span>
 </div>
+
+    <hr>
+    <input name='letter' type="text" id="letter"/>
+    <button id='przyciskWyslij'>Wyslij</button>
+
 <script>
+    const FE_SEND_LETTER = 'FE_SEND_LETTER';
+
     let minus = document.querySelector('.minus');
     let plus = document.querySelector('.plus');
     let value = document.querySelector('.value');
     let users = document.querySelector('.users');
+    let przyciskWyslij = document.getElementById('przyciskWyslij');
     let websocket = new WebSocket("ws://127.0.0.1:7000/");
+
+    function wyslijLitere() {
+
+        alert(letter.value);
+    }
+
 
     websocket.onmessage = function (event) {
         data = JSON.parse(event.data);
@@ -73,6 +87,11 @@
             };
             plus.onclick = (event) => {
                 ws.send(JSON.stringify({action: 'plus'}));
+            };
+
+            przyciskWyslij.onclick = (event) => {
+                const letter = document.getElementById('letter');
+                ws.send(JSON.stringify({type: 'FE_SEND_LETTER', value: letter}));
             };
             ws.onmessage = event => {
                 data = JSON.parse(event.data);
@@ -99,6 +118,7 @@
              users.textContent = "Waiting for second user";
         }
     };
+
 </script>
 </body>
 </html>

@@ -9,6 +9,10 @@ BE_PLAYER_DISCONNECTED = 'BE_PLAYER_DISCONNECTED'
 BE_GAME_PLUS_MINUS_STATE = 'BE_GAME_PLUS_MINUS_STATE'
 BE_NEW_THREAD_WAS_OPENED_TO_YOU = 'BE_NEW_THREAD_WAS_OPENED_TO_YOU'
 BE_WAITING_FOR_SECOND_PLAYER = 'BE_WAITING_FOR_SECOND_PLAYER'
+BE_GAME_WAS_STARTED = 'BE_GAME_WAS_STARTED'
+BE_GAME_STATE = 'BE_GAME_STATE'
+
+FE_SEND_LETTER = 'FE_SEND_LETTER'
 
 
 def new_player_connected(number_of_players):
@@ -42,4 +46,17 @@ def new_thread_was_opened(port):
 def waiting_for_second_player():
     return json.dumps({
         'type': BE_WAITING_FOR_SECOND_PLAYER
+    })
+
+
+def game_was_started():
+    return json.dumps({
+        'type': BE_GAME_WAS_STARTED
+    })
+
+
+def send_game_state(state):
+    return json.dumps({
+        'type': BE_GAME_STATE,
+        **state
     })
