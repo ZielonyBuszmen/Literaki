@@ -19,16 +19,13 @@ class GameManager:
         self.actual_player = None
         self.players = set()
 
-    # będzie zwracało "zakreskowane" hasło
-    def createNoBreakedPassword(self, password):
-        return '___ _____ __________, ___ ___ _______'
-
     async def register(self, websocket):
         self.players.add(websocket)
         qty = len(self.players)
         await self.notify_all_players(actions.new_player_connected(qty))
         if self.actual_player is None:
             self.actual_player = websocket
+            await self.notify_actual_player(actions.player_start_turn())
 
     async def unregister(self, websocket):
         self.players.remove(websocket)
@@ -56,7 +53,10 @@ class GameManager:
     async def player_send_letter(self, letter):
         if len(letter) == 1 and self.is_letter_in_password(letter):
             self.fill_password(letter)
-        elif self.is_proper_password(letter):
+            if self.is_catchword_filled():
+                await self.notify_actual_player(actions.player_win_game())
+                await self.notify_other_player(actions.player_lose_game())
+        elif self.is_proper_catchword(letter):
             await self.notify_actual_player(actions.player_win_game())
             await self.notify_other_player(actions.player_lose_game())
         else:
@@ -90,42 +90,13 @@ class GameManager:
                 self.breaked = self.breaked[:index] + letter + self.breaked[index + 1:]
             index += 1
 
-    def is_proper_password(self, letters):
-        pass  # todo - sprawdza, czy całe hasło jest poprawne
+    def is_proper_catchword(self, letters):
+        return self.password.lower() == letters.lower()
+
+    def is_catchword_filled(self):
+        return self.password == self.fill_password
 
 
-
-# class Gierka:
-#     def __init__(self):
-#         self.STATE = {'game_counter': 0}
-#         self.USERS = set()
-#
-#     def state_event(self):
-#         return json.dumps({'type': 'BE_GAME_PLUS_MINUS_STATE', **self.STATE})
-#
-#     def users_event(self):
-#         return json.dumps({'type': 'BE_NEW_PLAYER_CONNECTED', 'number_of_players': len(self.USERS)})
-#
-#     async def notify_state(self):
-#         if self.USERS:  # asyncio.wait doesn't accept an empty list
-#             message = self.state_event()
-#             await asyncio.wait([user.send(message) for user in self.USERS])
-#
-#     async def notify_users(self):
-#         if self.USERS:  # asyncio.wait doesn't accept an empty list
-#             message = self.users_event()
-#             await asyncio.wait([user.send(message) for user in self.USERS])
-#
-#     async def register(self, websocket):
-#         self.USERS.add(websocket)
-#         await self.notify_users()
-#
-#     async def unregister(self, websocket):
-#         self.USERS.remove(websocket)
-#         await self.notify_users()
-
-
-# główna funkcja programu
 async def game_websocket(game_manager, websocket, path):
     await websocket.send(actions.game_was_started())
     await game_manager.register(websocket)
