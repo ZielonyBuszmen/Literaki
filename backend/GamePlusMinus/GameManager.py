@@ -94,7 +94,7 @@ class GameManager:
         return self.password.lower() == letters.lower()
 
     def is_catchword_filled(self):
-        return self.password == self.fill_password
+        return self.password == self.breaked
 
 
 async def game_websocket(game_manager, websocket, path):

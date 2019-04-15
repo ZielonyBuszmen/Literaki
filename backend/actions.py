@@ -88,7 +88,7 @@ def player_lose_game():
 
 def player_win_game():
     return json.dumps({
-        'type': BE_YOU_LOSE_THE_GAME
+        'type': BE_YOU_WIN_THE_GAME
     })
 
 
