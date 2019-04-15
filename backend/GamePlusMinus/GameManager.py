@@ -31,6 +31,8 @@ class GameManager:
         self.players.add(websocket)
         qty = len(self.players)
         await self.notify_all_players(actions.new_player_connected(qty))
+        if self.actual_player is None:
+            self.actual_player = websocket
 
     async def unregister(self, websocket):
         self.players.remove(websocket)
@@ -45,29 +47,29 @@ class GameManager:
             await asyncio.wait([user.send(message) for user in self.players])
 
     async def react_for_action(self, websocket, action):
-        type = action.type
+        type = action["type"]
         if type == actions.FE_SEND_LETTER and websocket == self.actual_player:
-            self.player_send_letter(action.value)
-        elif type == 'plus':
-            pass
+            await self.player_send_letter(action["value"])
+        elif websocket != self.actual_player:
+            print("it is not your turn (action: ", action,")")
+            await self.notify_other_player(actions.not_your_turn())
         else:
-            print("unsupported action: {}", action)
+            print("unsupported action", action)
+            await self.notify_other_player(actions.unsupported_action())
 
-    def player_send_letter(self, letter):
+    async def player_send_letter(self, letter):
         if len(letter) == 1 and self.is_letter_in_password(letter):
-            # jeśli jedna litera - spradzamy czy jest w haśle i je uzupełniamy
             self.fill_password(letter)
-            pass
         elif self.is_proper_passord(letter):
-            await self.notify_actual_player('wygrales')  # todo - poprawic message w obu funkcjach
-            await self.notify_other_player('przegrales')
+            await self.notify_actual_player(actions.player_win_game())
+            await self.notify_other_player(actions.player_lose_game())
         else:
-            self.change_player()  # zła odpowiedz, zmieniamy gracza
-        self.notify_state()
+            await self.change_player()  # zła odpowiedz, zmieniamy gracza
+        await self.notify_state()
 
     async def notify_actual_player(self, message):
         if self.actual_player:
-            self.actual_player.send(message)
+            await self.actual_player.send(message)
 
     async def notify_other_player(self, message):
         if self.actual_player:
@@ -78,18 +80,23 @@ class GameManager:
             await asyncio.wait([player.send(message) for player in self.players])
 
     async def change_player(self):  # zmienia gracza
-        await self.notify_actual_player('koniec twojej tury')  # todo - poprawic message w obu funkcjach
-        await self.notify_other_player('teraz twoja tura')
+        await self.notify_actual_player(actions.player_end_turn())
+        await self.notify_other_player(actions.player_start_turn())
         self.actual_player = [player for player in self.players if player != self.actual_player][0]
 
     def is_letter_in_password(self, letter):
-        pass  # todo - sprawdza czy litera jest w haśle
+        return letter in self.password["saying"]
 
     def fill_password(self, letter):
-        pass  # todo - uzupełnia literkę (lub literki, trzeba pomyśleć) w haśle
+        index = 0
+        for password_letter in self.password["saying"]:
+            if password_letter == letter:
+                self.breaked = self.breaked[:index] + letter + self.breaked[index + 1:]
+            index += 1
 
     def is_proper_passord(self, letters):
         pass  # todo - sprawdza, czy całe hasło jest poprawne
+
 
 
 # class Gierka:
@@ -130,7 +137,7 @@ async def game_websocket(game_manager, websocket, path):
         await game_manager.notify_state()
         async for message in websocket:
             data = json.loads(message)
-            game_manager.react_for_action(websocket, data)
+            await game_manager.react_for_action(websocket, data)
     finally:
         await game_manager.unregister(websocket)
 

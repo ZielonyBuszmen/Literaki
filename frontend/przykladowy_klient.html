@@ -69,11 +69,6 @@
     let przyciskWyslij = document.getElementById('przyciskWyslij');
     let websocket = new WebSocket("ws://127.0.0.1:7000/");
 
-    function wyslijLitere() {
-
-        alert(letter.value);
-    }
-
 
     websocket.onmessage = function (event) {
         data = JSON.parse(event.data);
@@ -90,10 +85,11 @@
             };
 
             przyciskWyslij.onclick = (event) => {
-                const letter = document.getElementById('letter');
+                const letter = document.getElementById('letter').value;
                 ws.send(JSON.stringify({type: 'FE_SEND_LETTER', value: letter}));
             };
             ws.onmessage = event => {
+                console.log(event);
                 data = JSON.parse(event.data);
                 console.log(data)
                 switch (data.type) {

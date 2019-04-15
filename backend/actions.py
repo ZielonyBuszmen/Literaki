@@ -11,6 +11,12 @@ BE_NEW_THREAD_WAS_OPENED_TO_YOU = 'BE_NEW_THREAD_WAS_OPENED_TO_YOU'
 BE_WAITING_FOR_SECOND_PLAYER = 'BE_WAITING_FOR_SECOND_PLAYER'
 BE_GAME_WAS_STARTED = 'BE_GAME_WAS_STARTED'
 BE_GAME_STATE = 'BE_GAME_STATE'
+BE_END_OF_YOUR_TURN = 'BE_END_OF_YOUR_TURN'
+BE_START_OF_YOUR_TURN = 'BE_START_OF_YOUR_TURN'
+BE_YOU_LOSE_THE_GAME = 'BE_YOU_LOSE_THE_GAME'
+BE_YOU_WIN_THE_GAME = 'BE_YOU_WIN_THE_GAME'
+BE_NOT_YOUR_TURN = 'BE_NOT_YOUR_TURN'
+BE_UNSUPPORTED_ACTION = 'BE_UNSUPPORTED_ACTION'
 
 FE_SEND_LETTER = 'FE_SEND_LETTER'
 
@@ -59,4 +65,40 @@ def send_game_state(state):
     return json.dumps({
         'type': BE_GAME_STATE,
         **state
+    })
+
+
+def player_end_turn():
+    return json.dumps({
+        'type': BE_END_OF_YOUR_TURN
+    })
+
+
+def player_start_turn():
+    return json.dumps({
+        'type': BE_START_OF_YOUR_TURN
+    })
+
+
+def player_lose_game():
+    return json.dumps({
+        'type': BE_YOU_LOSE_THE_GAME
+    })
+
+
+def player_win_game():
+    return json.dumps({
+        'type': BE_YOU_LOSE_THE_GAME
+    })
+
+
+def not_your_turn():
+    return json.dumps({
+        'type': BE_NOT_YOUR_TURN
+    })
+
+
+def unsupported_action():
+    return json.dumps({
+        'type': BE_UNSUPPORTED_ACTION
     })
