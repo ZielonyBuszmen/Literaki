@@ -1,10 +1,5 @@
 # Literaki
 
-Todo Backend:
-- GamePlusMinus nie jest wcale używane, ale można zrefaktoryzować i połączyć z kodem z pair_game
-- plik pair_game powinien być w folderze GamePlusMinus
-
-
 ## Instalacja
 
 ### Backend
