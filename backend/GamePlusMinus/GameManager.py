@@ -6,22 +6,18 @@ from functools import partial
 from websockets import WebSocketServerProtocol
 
 from backend import actions
+from backend.GamePlusMinus import game_helpers
 
 
 class GameManager:
     # tutaj musimy zrobic ustawianie gry - losowanie ble ble, kto zaczyna
     def __init__(self):
-        self.password = self.castLostPassword()
-        self.breaked = self.createNoBreakedPassword(self.password)
+        random_password = game_helpers.get_random_catchword()
+        self.password = random_password['catchword']
+        self.password_category = random_password['category']
+        self.breaked = game_helpers.get_catchword_mock(self.password)
         self.actual_player = None
         self.players = set()
-
-    # te hasło będzie losowane
-    def castLostPassword(self):
-        return {
-            'category': 'Sypialnia',
-            'saying': 'jak sobie pościelisz, tak się wyśpisz',
-        }
 
     # będzie zwracało "zakreskowane" hasło
     def createNoBreakedPassword(self, password):
@@ -43,6 +39,7 @@ class GameManager:
         if self.players:  # asyncio.wait doesn't accept an empty list
             message = actions.send_game_state({
                 'password': self.breaked,
+                'category': self.password_category,
             })
             await asyncio.wait([user.send(message) for user in self.players])
 
@@ -51,7 +48,6 @@ class GameManager:
         if type == actions.FE_SEND_LETTER and websocket == self.actual_player:
             await self.player_send_letter(action["value"])
         elif websocket != self.actual_player:
-            print("it is not your turn (action: ", action,")")
             await self.notify_other_player(actions.not_your_turn())
         else:
             print("unsupported action", action)
@@ -60,11 +56,11 @@ class GameManager:
     async def player_send_letter(self, letter):
         if len(letter) == 1 and self.is_letter_in_password(letter):
             self.fill_password(letter)
-        elif self.is_proper_passord(letter):
+        elif self.is_proper_password(letter):
             await self.notify_actual_player(actions.player_win_game())
             await self.notify_other_player(actions.player_lose_game())
         else:
-            await self.change_player()  # zła odpowiedz, zmieniamy gracza
+            await self.change_player()
         await self.notify_state()
 
     async def notify_actual_player(self, message):
@@ -85,16 +81,16 @@ class GameManager:
         self.actual_player = [player for player in self.players if player != self.actual_player][0]
 
     def is_letter_in_password(self, letter):
-        return letter in self.password["saying"]
+        return letter in self.password
 
     def fill_password(self, letter):
         index = 0
-        for password_letter in self.password["saying"]:
+        for password_letter in self.password:
             if password_letter == letter:
                 self.breaked = self.breaked[:index] + letter + self.breaked[index + 1:]
             index += 1
 
-    def is_proper_passord(self, letters):
+    def is_proper_password(self, letters):
         pass  # todo - sprawdza, czy całe hasło jest poprawne
 
 
