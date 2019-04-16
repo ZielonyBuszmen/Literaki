@@ -1,13 +1,10 @@
 import asyncio
-import json
-import websockets
-from functools import partial
 
 from backend import actions
 from backend.Gameplay import game_helpers
 
 
-class GameManager:
+class GameplayManager:
     def __init__(self):
         random_password = game_helpers.get_random_catchword()
         self.password = random_password['catchword']
@@ -92,32 +89,3 @@ class GameManager:
 
     def is_catchword_filled(self):
         return self.password == self.broke
-
-
-async def game_websocket(game_manager, websocket, path):
-    await websocket.send(actions.game_was_started())
-    await game_manager.register(websocket)
-    try:
-        await game_manager.notify_state()
-        async for message in websocket:
-            data = json.loads(message)
-            await game_manager.react_for_action(websocket, data)
-    finally:
-        await game_manager.unregister(websocket)
-
-
-def start_pair_thread(port=6790):
-    print("new port was created - ", port)
-
-    game_manager = GameManager()
-
-    pair_game_with_arg = partial(
-        game_websocket,
-        game_manager  # pass argument to method using `partials`
-    )
-
-    loop = asyncio.new_event_loop()
-    asyncio.set_event_loop(loop)
-    asyncio.get_event_loop().run_until_complete(
-        websockets.serve(pair_game_with_arg, 'localhost', port))
-    asyncio.get_event_loop().run_forever()
