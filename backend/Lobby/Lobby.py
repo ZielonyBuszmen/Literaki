@@ -37,7 +37,8 @@ class Lobby:
         await second_player.send(new_thread_was_opened(port))
 
     async def unregister_player(self, websocket):
-        self.players.remove(websocket)
+        if websocket in self.players:
+            self.players.remove(websocket)
         message = player_disconnected(self.count_players())
         await self.notify_all_players(message)
 
