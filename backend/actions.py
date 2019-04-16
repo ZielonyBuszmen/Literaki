@@ -6,7 +6,6 @@ import json
 
 BE_NEW_PLAYER_CONNECTED = 'BE_NEW_PLAYER_CONNECTED'
 BE_PLAYER_DISCONNECTED = 'BE_PLAYER_DISCONNECTED'
-BE_GAME_PLUS_MINUS_STATE = 'BE_GAME_PLUS_MINUS_STATE'
 BE_NEW_THREAD_WAS_OPENED_TO_YOU = 'BE_NEW_THREAD_WAS_OPENED_TO_YOU'
 BE_WAITING_FOR_SECOND_PLAYER = 'BE_WAITING_FOR_SECOND_PLAYER'
 BE_GAME_WAS_STARTED = 'BE_GAME_WAS_STARTED'
@@ -32,13 +31,6 @@ def player_disconnected(number_of_players):
     return json.dumps({
         'type': BE_PLAYER_DISCONNECTED,
         'number_of_players': number_of_players
-    })
-
-
-def game_plus_minus_state(game_counter):
-    return json.dumps({
-        'type': BE_GAME_PLUS_MINUS_STATE,
-        'game_counter': game_counter
     })
 
 

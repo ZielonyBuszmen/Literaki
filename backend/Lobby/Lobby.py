@@ -1,7 +1,8 @@
 import asyncio
 import threading
 
-from backend.GamePlusMinus.GameManager import start_pair_thread
+from backend.Gameplay.GameplayManager import GameplayManager
+from backend.Gameplay.GameThreadCreator import GameThreadCreator
 from backend.consts import PORT_TO_NEW_GAME
 from backend.actions import new_player_connected, player_disconnected, new_thread_was_opened, waiting_for_second_player
 
@@ -27,13 +28,17 @@ class Lobby:
 
         port = self.get_increased_port()
 
-        thread = threading.Thread(target=start_pair_thread, args=(port,))
+        gameplay_manager = GameplayManager()
+        thread_creator = GameThreadCreator(gameplay_manager)
+
+        thread = threading.Thread(target=thread_creator.start_new_game_thread, args=(port,))
         thread.start()
         await first_player.send(new_thread_was_opened(port))
         await second_player.send(new_thread_was_opened(port))
 
     async def unregister_player(self, websocket):
-        self.players.remove(websocket)
+        if websocket in self.players:
+            self.players.remove(websocket)
         message = player_disconnected(self.count_players())
         await self.notify_all_players(message)
 
