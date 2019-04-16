@@ -1,7 +1,7 @@
 import asyncio
 import threading
 
-from backend.GamePlusMinus.GameManager import start_pair_thread
+from backend.Gameplay.GameManager import start_pair_thread
 from backend.consts import PORT_TO_NEW_GAME
 from backend.actions import new_player_connected, player_disconnected, new_thread_was_opened, waiting_for_second_player
 

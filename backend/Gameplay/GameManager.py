@@ -3,19 +3,16 @@ import json
 import websockets
 from functools import partial
 
-from websockets import WebSocketServerProtocol
-
 from backend import actions
-from backend.GamePlusMinus import game_helpers
+from backend.Gameplay import game_helpers
 
 
 class GameManager:
-    # tutaj musimy zrobic ustawianie gry - losowanie ble ble, kto zaczyna
     def __init__(self):
         random_password = game_helpers.get_random_catchword()
         self.password = random_password['catchword']
         self.password_category = random_password['category']
-        self.breaked = game_helpers.get_catchword_mock(self.password)
+        self.broke = game_helpers.get_catchword_mock(self.password)
         self.actual_player = None
         self.players = set()
 
@@ -35,7 +32,7 @@ class GameManager:
     async def notify_state(self):
         if self.players:  # asyncio.wait doesn't accept an empty list
             message = actions.send_game_state({
-                'password': self.breaked,
+                'password': self.broke,
                 'category': self.password_category,
             })
             await asyncio.wait([user.send(message) for user in self.players])
@@ -87,14 +84,14 @@ class GameManager:
         index = 0
         for password_letter in self.password:
             if password_letter == letter:
-                self.breaked = self.breaked[:index] + letter + self.breaked[index + 1:]
+                self.broke = self.broke[:index] + letter + self.broke[index + 1:]
             index += 1
 
     def is_proper_catchword(self, letters):
         return self.password.lower() == letters.lower()
 
     def is_catchword_filled(self):
-        return self.password == self.breaked
+        return self.password == self.broke
 
 
 async def game_websocket(game_manager, websocket, path):
@@ -116,7 +113,7 @@ def start_pair_thread(port=6790):
 
     pair_game_with_arg = partial(
         game_websocket,
-        game_manager  # argument game_manager
+        game_manager  # pass argument to method using `partials`
     )
 
     loop = asyncio.new_event_loop()

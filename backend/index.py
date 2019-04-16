@@ -4,7 +4,7 @@ import websockets
 from backend.Lobby.Lobby import Lobby
 from backend.consts import START_PORT, SERVER
 
-print("Serwer został uruchomiony")
+print("Server was started")
 
 lobby = Lobby()
 
@@ -21,3 +21,5 @@ async def main(websocket, path):
 asyncio.get_event_loop().run_until_complete(
     websockets.serve(main, SERVER, START_PORT))
 asyncio.get_event_loop().run_forever()
+
+print("Server was shut down")

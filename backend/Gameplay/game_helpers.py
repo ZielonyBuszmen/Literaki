@@ -1,7 +1,7 @@
 # plik z "helpersami"
 import random
 
-from backend.GamePlusMinus.catchwords import CATCHWORDS
+from backend.Gameplay.catchword_list import CATCHWORDS
 
 
 def get_random_catchword():
@@ -14,3 +14,4 @@ def get_catchword_mock(catchword):
         new_letter = '_' if letter.isalpha() else letter
         result.append(new_letter)
     return ''.join(result)
+
