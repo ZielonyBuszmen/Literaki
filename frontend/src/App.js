@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {withRouter, Route} from 'react-router-dom'
-import Main from './components/Main';
-import About from './components/About';
+import Game from './components/Game.js';
+import Lobby from './components/Lobby.js';
 import { connect } from "react-redux";
 import { contactsFetched } from "./actions";
 
@@ -9,8 +9,8 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Route path="/" exact strict component={Main}/>
-        <Route path="/about" component={About}/>
+        <Route path="/" exact strict component={Game}/>
+        <Route path="/lobby" component={Lobby}/>
       </div>
     );
   }

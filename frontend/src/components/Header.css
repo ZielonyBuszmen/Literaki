@@ -1,0 +1,26 @@
+.Header {
+    background-color: #3f7bd2;
+    color: white;
+    font-size: xx-large;
+    padding: 1rem;
+}
+
+.You {
+    text-align: left;
+}
+
+.Opponent {
+    text-align: right;
+}
+
+.Category {
+    text-align: center;
+    background-color: #ec771e;
+    border: 1px #0c5cd2;
+    border-radius: 5px;
+}
+
+.ActualRound {
+    text-decoration: underline #00d200;
+    color: #00d200;
+}

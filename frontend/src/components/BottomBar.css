@@ -1,0 +1,13 @@
+.BottomBar {
+    background-color: #0c5cd2;
+    padding: 1em;
+    position: absolute;
+    bottom: 0;
+}
+
+.Round {
+    text-align: right;
+    color: #ffffff;
+    font-size: x-large;
+
+}
