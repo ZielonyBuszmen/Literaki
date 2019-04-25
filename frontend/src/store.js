@@ -10,8 +10,13 @@ export const initialStoreState = {
     lobby: {
         message: "Łączenie z serwerem...",
         redirectToGame: false,
-        redirectToLobby: false,
-    }
+        redirectToLobby: true,
+    },
+    game: {
+        catchword: "",
+        category: "",
+        yourTurn: false,
+    },
 };
 
 export const store = createStore(reducers, initialStoreState);

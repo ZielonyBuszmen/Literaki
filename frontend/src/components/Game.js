@@ -15,9 +15,9 @@ class Game extends React.Component {
         }
         return (
             <div>
-                <Header/>
-                <Quiz/>
-                <BottomBar/>
+                <Header category={this.props.category} yourTurn={this.props.yourTurn}/>
+                <Quiz catchword={this.props.catchword}/>
+                <BottomBar yourTurn={this.props.yourTurn}/>
             </div>
         );
     }
@@ -26,6 +26,9 @@ class Game extends React.Component {
 function mapStateToProps(state) {
     return {
         redirectToLobby: state.lobby.redirectToLobby,
+        catchword: state.game.catchword,
+        category: state.game.category,
+        yourTurn: state.game.yourTurn,
     };
 }
 

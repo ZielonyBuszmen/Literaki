@@ -29,7 +29,7 @@ class GameplayManager:
     async def notify_state(self):
         if self.players:  # asyncio.wait doesn't accept an empty list
             message = actions.send_game_state({
-                'password': self.broke,
+                'catchword': self.broke,
                 'category': self.password_category,
             })
             await asyncio.wait([user.send(message) for user in self.players])
