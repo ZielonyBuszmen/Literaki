@@ -16,7 +16,7 @@ class Game extends React.Component {
         return (
             <div>
                 <Header/>
-                <Quiz/>
+                <Quiz catchword={this.props.catchword}/>
                 <BottomBar/>
             </div>
         );
@@ -24,8 +24,10 @@ class Game extends React.Component {
 }
 
 function mapStateToProps(state) {
+    console.log('aaaa',state);
     return {
         redirectToLobby: state.lobby.redirectToLobby,
+        catchword: state.game.catchword,
     };
 }
 

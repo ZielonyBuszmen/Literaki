@@ -11,7 +11,10 @@ export const initialStoreState = {
         message: "Łączenie z serwerem...",
         redirectToGame: false,
         redirectToLobby: false,
-    }
+    },
+    game: {
+        catchword: "_ _ _",
+    },
 };
 
 export const store = createStore(reducers, initialStoreState);

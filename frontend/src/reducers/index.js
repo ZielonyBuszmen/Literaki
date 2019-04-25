@@ -1,6 +1,8 @@
 import {combineReducers} from "redux";
 import {lobbyReducer} from "./lobbyReducer";
+import {websocketReducer} from "./websocketRedcer";
 
 export default combineReducers({
-    lobby: lobbyReducer
+    lobby: lobbyReducer,
+    websocket: websocketReducer,
 });
