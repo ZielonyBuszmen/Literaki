@@ -1,8 +1,6 @@
-import { combineReducers } from "redux";
-import { contacts } from "./contacts";
-import { numberReducer } from "./numberReducer";
+import {combineReducers} from "redux";
+import {lobbyReducer} from "./lobbyReducer";
 
 export default combineReducers({
-  contacts,
-    numeration: numberReducer,
+    lobby: lobbyReducer
 });

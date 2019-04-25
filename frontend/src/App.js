@@ -3,14 +3,13 @@ import {withRouter, Route} from 'react-router-dom'
 import Game from './components/Game.js';
 import Lobby from './components/Lobby.js';
 import { connect } from "react-redux";
-import { contactsFetched } from "./actions";
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Route path="/" exact strict component={Game}/>
-        <Route path="/lobby" component={Lobby}/>
+        <Route path="/" exact strict component={Lobby}/>
+        <Route path="/game" component={Game}/>
       </div>
     );
   }
@@ -22,6 +21,6 @@ const mapStateToProps = (state) => {
   }
 };
 
-const mapDispatchToProps = {contactsFetched};
+const mapDispatchToProps = {};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

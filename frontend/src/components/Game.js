@@ -1,29 +1,38 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import Header from './Header.js';
 import Quiz from './Quiz.js';
 import BottomBar from './BottomBar.js';
 import './Game.css';
+import {setRedirectToLobby} from "../actions";
 
 class Game extends React.Component {
 
-  render() {
-    return (
-      <div>
-        <Header/>
-        <Quiz/>
-        <BottomBar/>
-      </div>
-    );
-  }
+    render() {
+        if (this.props.redirectToLobby) {
+            this.props.setRedirectToLobby(false);
+            this.props.history.push('/');
+        }
+        return (
+            <div>
+                <Header/>
+                <Quiz/>
+                <BottomBar/>
+            </div>
+        );
+    }
 }
 
 function mapStateToProps(state) {
-  return {};
+    return {
+        redirectToLobby: state.lobby.redirectToLobby,
+    };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {};
+    return {
+        setRedirectToLobby: (value) => dispatch(setRedirectToLobby(value)),
+    };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game);
