@@ -24,7 +24,7 @@ class BottomBar extends React.Component {
                 <Row>
                     <Col xs="4" sm="4">
                         <InputGroup>
-                            <Input value={this.state.text} onChange={(e) => {
+                            <Input disabled={!this.props.yourTurn} value={this.state.text} onChange={(e) => {
                                 this.setState({text: e.target.value})
                             }}/>
                             <InputGroupAddon addonType="append">

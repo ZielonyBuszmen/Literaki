@@ -2,4 +2,7 @@
     text-align: center;
     padding: 12rem;
     font-size: xx-large;
+    letter-spacing: 15px;
+    font-family: "Lucida Console", Monaco, monospace;
+    font-weight: bold;
 }
