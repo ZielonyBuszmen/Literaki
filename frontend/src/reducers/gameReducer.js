@@ -16,6 +16,11 @@ export const gameReducer = (state = [], action) => {
                 ...state,
                 yourTurn: false,
             };
+           case 'BE_ROUND_NUMBER':
+              return {
+                ...state,
+                numberRound: action.value,
+            };
         default:
             return state;
     }

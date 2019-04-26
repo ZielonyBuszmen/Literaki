@@ -12,7 +12,7 @@ class Header extends React.Component {
       <Container className="Header" fluid>
         <Row>
           <Col>
-            <b className={'player-label ' + youStyle}>Ty</b>
+            <b className={'player-label ' + youStyle}>Ty</b> vs
             <b className={'player-label  ' + opponentStyle}>Przeciwnik</b>
           </Col>
           <Col className="Category">

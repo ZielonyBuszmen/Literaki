@@ -33,7 +33,7 @@ class BottomBar extends React.Component {
             </InputGroup>
           </Col>
           <Col xs="8" sm="8" className="Round">
-            <b>Runda Nr_Rundy</b>
+            <b>Runda {this.props.numberRound}</b>
           </Col>
         </Row>
       </Container>
@@ -44,6 +44,7 @@ class BottomBar extends React.Component {
 function mapStateToProps(state) {
   return {
     websocket: state.websocket.websocket,
+    numberRound: state.game.numberRound,
   };
 }
 

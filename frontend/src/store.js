@@ -16,6 +16,7 @@ export const initialStoreState = {
     catchword: "",
     category: "",
     yourTurn: false,
+    numberRound: 1,
   },
 };
 
