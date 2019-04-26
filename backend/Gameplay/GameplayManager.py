@@ -11,6 +11,7 @@ class GameplayManager:
         self.password_category = random_password['category']
         self.broke = game_helpers.get_catchword_mock(self.password)
         self.actual_player = None
+        self.players_moves = 0
         self.players = set()
 
     async def register(self, websocket):
@@ -27,11 +28,8 @@ class GameplayManager:
         await self.notify_all_players(actions.player_disconnected(qty))
 
     async def notify_state(self):
-        if self.players:  # asyncio.wait doesn't accept an empty list
-            message = actions.send_game_state({
-                'catchword': self.broke,
-                'category': self.password_category,
-            })
+        if self.players:
+            message = actions.send_game_state(self.broke, self.password_category)
             await asyncio.wait([user.send(message) for user in self.players])
 
     async def react_for_action(self, websocket, action):
@@ -70,9 +68,12 @@ class GameplayManager:
             await asyncio.wait([player.send(message) for player in self.players])
 
     async def change_player(self):  # zmienia gracza
+        self.players_moves += 1
         await self.notify_actual_player(actions.player_end_turn())
         await self.notify_other_player(actions.player_start_turn())
         self.actual_player = [player for player in self.players if player != self.actual_player][0]
+        round_number = int(self.players_moves / 2) + 1
+        await self.notify_all_players(actions.round_number(round_number))
 
     def is_letter_in_password(self, letter):
         return letter in self.password

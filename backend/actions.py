@@ -16,6 +16,7 @@ BE_YOU_LOSE_THE_GAME = 'BE_YOU_LOSE_THE_GAME'
 BE_YOU_WIN_THE_GAME = 'BE_YOU_WIN_THE_GAME'
 BE_NOT_YOUR_TURN = 'BE_NOT_YOUR_TURN'
 BE_UNSUPPORTED_ACTION = 'BE_UNSUPPORTED_ACTION'
+BE_ROUND_NUMBER = 'BE_ROUND_NUMBER'
 
 FE_SEND_LETTER = 'FE_SEND_LETTER'
 
@@ -53,10 +54,11 @@ def game_was_started():
     })
 
 
-def send_game_state(state):
+def send_game_state(catchword, category):
     return json.dumps({
         'type': BE_GAME_STATE,
-        **state
+        'catchword': catchword,
+        'category': category
     })
 
 
@@ -93,4 +95,11 @@ def not_your_turn():
 def unsupported_action():
     return json.dumps({
         'type': BE_UNSUPPORTED_ACTION
+    })
+
+
+def round_number(value):
+    return json.dumps({
+        'type': BE_ROUND_NUMBER,
+        'value': value
     })
