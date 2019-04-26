@@ -1,4 +1,5 @@
 import asyncio
+import time
 
 from backend import actions
 from backend.Gameplay import game_helpers
@@ -36,6 +37,8 @@ class GameplayManager:
         type = action["type"]
         if type == actions.FE_SEND_LETTER and websocket == self.actual_player:
             await self.player_send_letter(action["value"])
+        elif type == actions.FE_SEND_CHAT_MESSAGE:
+            await self.chat_it(websocket, action["value"])
         elif websocket != self.actual_player:
             await self.notify_other_player(actions.not_your_turn())
         else:
@@ -90,3 +93,10 @@ class GameplayManager:
 
     def is_catchword_filled(self):
         return self.password == self.broke
+
+    async def chat_it(self, websocket, message):
+        actual_time = time.time()
+        sender_message = actions.send_chat_message(True, message, actual_time)
+        opponent_message = actions.send_chat_message(False, message, actual_time)
+        await websocket.send(sender_message)
+        await asyncio.wait([player.send(opponent_message) for player in self.players if player != websocket])

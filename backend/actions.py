@@ -17,8 +17,10 @@ BE_YOU_WIN_THE_GAME = 'BE_YOU_WIN_THE_GAME'
 BE_NOT_YOUR_TURN = 'BE_NOT_YOUR_TURN'
 BE_UNSUPPORTED_ACTION = 'BE_UNSUPPORTED_ACTION'
 BE_ROUND_NUMBER = 'BE_ROUND_NUMBER'
+BE_CHAT_MESSAGE = 'BE_CHAT_MESSAGE'
 
 FE_SEND_LETTER = 'FE_SEND_LETTER'
+FE_SEND_CHAT_MESSAGE = 'FE_SEND_CHAT_MESSAGE'
 
 
 def new_player_connected(number_of_players):
@@ -102,4 +104,13 @@ def round_number(value):
     return json.dumps({
         'type': BE_ROUND_NUMBER,
         'value': value
+    })
+
+
+def send_chat_message(isCurrentPlayer, message, time):
+    return json.dumps({
+        'type': BE_CHAT_MESSAGE,
+        'isCurrentPlayer': isCurrentPlayer,
+        'message': message,
+        'time': time,
     })
