@@ -5,12 +5,10 @@
     padding: 1rem;
 }
 
-.You {
-    text-align: left;
-}
-
-.Opponent {
-    text-align: right;
+.player-label {
+    font-size: 16pt;
+    padding-left: 10px;
+    color: rgba(255, 255, 255, 0.25);
 }
 
 .Category {
@@ -21,6 +19,6 @@
 }
 
 .ActualRound {
-    text-decoration: underline #009d00;
-    color: #00af00;
+    text-decoration: underline #00cb00;
+    color: #00cb00;
 }

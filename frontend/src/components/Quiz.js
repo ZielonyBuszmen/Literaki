@@ -8,7 +8,6 @@ class Quiz extends React.Component {
     return (
       <Container className="Quiz">
         {this.props.catchword}
-        {/*_ _ _ _ _ &nbsp; _ _ _ _ _ &nbsp; _ _ _ _ _*/}
       </Container>
     );
   }

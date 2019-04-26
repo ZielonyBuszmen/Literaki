@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {withRouter, Route} from 'react-router-dom'
+import { withRouter, Route } from 'react-router-dom'
 import Game from './components/Game.js';
 import Lobby from './components/Lobby.js';
 import { connect } from "react-redux";
