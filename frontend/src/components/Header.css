@@ -1,5 +1,5 @@
 .Header {
-    background-color: #3f7bd2;
+    background-color: #0c5cd2;
     color: white;
     font-size: xx-large;
     padding: 1rem;
@@ -8,7 +8,7 @@
 .player-label {
     font-size: 16pt;
     padding-left: 10px;
-    color: rgba(255, 255, 255, 0.25);
+    color: rgba(252, 252, 252, 0.51);
 }
 
 .Category {

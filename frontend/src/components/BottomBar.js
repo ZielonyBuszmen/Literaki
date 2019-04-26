@@ -33,7 +33,7 @@ class BottomBar extends React.Component {
             </InputGroup>
           </Col>
           <Col xs="8" sm="8" className="Round">
-            <b>Runda {this.props.numberRound}</b>
+            | &nbsp; <b>Runda {this.props.numberRound}</b>
           </Col>
         </Row>
       </Container>
