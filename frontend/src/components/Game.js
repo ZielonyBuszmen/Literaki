@@ -5,6 +5,8 @@ import Quiz from './Quiz.js';
 import BottomBar from './BottomBar.js';
 import './Game.css';
 import { setRedirectToLobby } from "../actions";
+import { Col, Row } from "reactstrap";
+import Container from "reactstrap/es/Container";
 
 class Game extends React.Component {
 
@@ -14,11 +16,79 @@ class Game extends React.Component {
       this.props.history.push('/');
     }
     return (
-      <div>
-        <Header category={this.props.category} yourTurn={this.props.yourTurn}/>
-        <Quiz catchword={this.props.catchword}/>
-        <BottomBar yourTurn={this.props.yourTurn}/>
-      </div>
+      <Container fluid>
+        <Row><Header category={this.props.category} yourTurn={this.props.yourTurn}/></Row>
+        <Row className="GameContent">
+          <Col>
+            <Quiz catchword={this.props.catchword}/></Col>
+          <Col className="chatField" xs="12" sm="3">
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>
+            dad <br/>d
+          </Col>
+        </Row>
+        <Row><BottomBar yourTurn={this.props.yourTurn}/></Row>
+      </Container>
     );
   }
 }

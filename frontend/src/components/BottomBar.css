@@ -5,6 +5,10 @@
     bottom: 0;
 }
 
+input[type="text"]:disabled {
+    background: rgba(235, 235, 235, 0.7);
+}
+
 .Round {
     color: #ffffff;
     font-size: x-large;

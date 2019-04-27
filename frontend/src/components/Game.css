@@ -1,3 +1,21 @@
 body {
     background-color: #ffb270;
+    margin: 0;
+    padding: 0;
+}
+
+.Game {
+    margin: 0;
+    padding: 0;
+}
+
+.chatField {
+    background-color: white;
+    border-left: 1px solid #0c5cd2;
+    max-height: calc(100vh - 150px);
+    overflow-y: scroll;
+}
+
+.GameContent {
+    height: calc(100vh - 150px);
 }
