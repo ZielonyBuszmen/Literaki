@@ -18,6 +18,9 @@ export const initialStoreState = {
     yourTurn: false,
     numberRound: 1,
   },
+  chat: {
+    messages: [],
+  }
 };
 
 export const store = createStore(reducers, initialStoreState);

@@ -2,19 +2,27 @@ import React from 'react';
 import { Col, Container, Row, InputGroup, Input, InputGroupAddon, Button } from 'reactstrap';
 import "./BottomBar.css";
 import { connect } from "react-redux";
-import { sendLetter } from "../actions";
+import { sendLetter, sendMessage } from "../actions";
 
 class BottomBar extends React.Component {
 
   state = {
     text: '',
+    message: '',
   };
 
   sendLetter = () => {
-    console.log(this.state.text);
     if (this.state.text.length > 0) {
       this.props.websocket.send(JSON.stringify(sendLetter(this.state.text)));
       this.setState({text: ''});
+    }
+  };
+
+  sendMessage = (e) => {
+    e.preventDefault();
+    if (this.state.message.length > 0) {
+      this.props.websocket.send(JSON.stringify(sendMessage(this.state.message)));
+      this.setState({message: ''});
     }
   };
 
@@ -41,12 +49,15 @@ class BottomBar extends React.Component {
             | &nbsp; <b>Runda {this.props.numberRound}</b>
           </Col>
           <Col className="chatInput" xs="3" sm="3">
-            <InputGroup>
-              <Input placeholder="Wpisz wiadomość"/>
-              <InputGroupAddon addonType="append">
-                <Button color="info">-></Button>
-              </InputGroupAddon>
-            </InputGroup>
+            <form>
+              <InputGroup>
+                <Input value={this.state.message} onChange={e => this.setState({message: e.target.value})}
+                       placeholder="Wpisz wiadomość"/>
+                <InputGroupAddon addonType="append">
+                  <Button type="submit" onClick={this.sendMessage} color="info">-></Button>
+                </InputGroupAddon>
+              </InputGroup>
+            </form>
           </Col>
         </Row>
       </Container>

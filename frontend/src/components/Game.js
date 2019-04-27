@@ -10,11 +10,26 @@ import Container from "reactstrap/es/Container";
 
 class Game extends React.Component {
 
+  chatMessagesRenderer = (messages) => {
+    return messages.map((message) => {
+      const date = new Date(message.time * 1000);
+      const who = message.isCurrentPlayer ? 'Ja' : 'Przeciwnik';
+      const whoClass = message.isCurrentPlayer ? 'player' : 'opponent';
+
+      return <p className='message'>
+        <span className={'author ' + whoClass}>{who}</span> &nbsp;
+        <span className='hours'>({date.getHours()}:{date.getMinutes()}:{date.getSeconds()})</span> &nbsp;
+        {message.message}
+      </p>;
+    })
+  };
+
   render() {
     if (this.props.redirectToLobby) {
       this.props.setRedirectToLobby(false);
       this.props.history.push('/');
     }
+
     return (
       <Container fluid>
         <Row><Header category={this.props.category} yourTurn={this.props.yourTurn}/></Row>
@@ -22,69 +37,7 @@ class Game extends React.Component {
           <Col>
             <Quiz catchword={this.props.catchword}/></Col>
           <Col className="chatField" xs="12" sm="3">
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>
-            dad <br/>d
+            {this.chatMessagesRenderer(this.props.chatMessages)}
           </Col>
         </Row>
         <Row><BottomBar yourTurn={this.props.yourTurn}/></Row>
@@ -99,6 +52,7 @@ function mapStateToProps(state) {
     catchword: state.game.catchword,
     category: state.game.category,
     yourTurn: state.game.yourTurn,
+    chatMessages: state.chat.messages,
   };
 }
 

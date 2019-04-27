@@ -19,3 +19,25 @@ body {
 .GameContent {
     height: calc(100vh - 150px);
 }
+
+
+.message {
+
+}
+
+.message .hours {
+    color: #757575;
+    font-size: 80%;
+}
+
+.message .author {
+    font-weight: bold;
+}
+
+.message .author.player {
+    color: blue;
+}
+
+.message .author.opponent {
+    color: red;
+}
