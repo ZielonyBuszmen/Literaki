@@ -17,6 +17,7 @@ export const initialStoreState = {
     category: "",
     yourTurn: false,
     numberRound: 1,
+    result: "",
   },
   chat: {
     messages: [],

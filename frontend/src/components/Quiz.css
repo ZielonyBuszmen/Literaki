@@ -7,3 +7,20 @@
     font-weight: bold;
 }
 
+@keyframes blink {
+    0% {
+        visibility: hidden;
+        animation-timing-function: step-end;
+    }
+    25%, 100% {
+        visibility: visible;
+    }
+}
+
+.result {
+    font-size: xx-large;
+    color: #0c5cd2;
+    font-family: "Impact", Monaco, serif;
+    text-shadow: 2px 4px 4px rgb(204, 204, 204), 0 0 0 rgb(55, 55, 55);
+    animation: blink 1s infinite;
+}

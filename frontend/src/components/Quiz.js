@@ -10,6 +10,9 @@ class Quiz extends React.Component {
         <Row>
           <Col xs="12" sm="9">{this.props.catchword}</Col>
         </Row>
+        <Row>
+          <Col className="result">{this.props.result}</Col>
+        </Row>
       </Container>
     );
   }

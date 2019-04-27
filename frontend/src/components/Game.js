@@ -35,7 +35,7 @@ class Game extends React.Component {
         <Row><Header category={this.props.category} yourTurn={this.props.yourTurn}/></Row>
         <Row className="GameContent">
           <Col>
-            <Quiz catchword={this.props.catchword}/></Col>
+            <Quiz result={this.props.result} catchword={this.props.catchword}/></Col>
           <Col className="chatField" xs="12" sm="3">
             {this.chatMessagesRenderer(this.props.chatMessages)}
           </Col>
@@ -52,6 +52,7 @@ function mapStateToProps(state) {
     catchword: state.game.catchword,
     category: state.game.category,
     yourTurn: state.game.yourTurn,
+    result: state.game.result,
     chatMessages: state.chat.messages,
   };
 }
