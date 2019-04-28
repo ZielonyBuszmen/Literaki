@@ -51,7 +51,8 @@ class GameplayManager:
             if self.is_catchword_filled():
                 await self.notify_actual_player(actions.player_win_game())
                 await self.notify_other_player(actions.player_lose_game())
-        elif self.is_proper_catchword(letter):
+        elif self.is_proper_catchword(letter):  # "jak sobie poscielesz tak sobie wyspisz"
+            for s in letter: self.fill_password(s)
             await self.notify_actual_player(actions.player_win_game())
             await self.notify_other_player(actions.player_lose_game())
         else:
