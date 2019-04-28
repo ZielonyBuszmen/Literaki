@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter, Route } from 'react-router-dom'
-import Game from './components/Game.js';
-import Lobby from './components/Lobby.js';
+import Game from './components/Game/Game.js';
+import Lobby from './components/Lobby/Lobby.js';
 import { connect } from "react-redux";
 
 class App extends Component {

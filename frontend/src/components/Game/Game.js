@@ -1,28 +1,15 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Header from './Header.js';
-import Quiz from './Quiz.js';
-import BottomBar from './BottomBar.js';
+import Header from './Header/Header.js';
+import Quiz from './Quiz/Quiz.js';
+import BottomBar from './BottomBar/BottomBar.js';
 import './Game.css';
-import { setRedirectToLobby } from "../actions";
+import { setRedirectToLobby } from "../../actions";
 import { Col, Row } from "reactstrap";
 import Container from "reactstrap/es/Container";
+import ChatField from './ChatField.js';
 
 class Game extends React.Component {
-
-  chatMessagesRenderer = (messages) => {
-    return messages.map((message) => {
-      const date = new Date(message.time * 1000);
-      const who = message.isCurrentPlayer ? 'Ja' : 'Przeciwnik';
-      const whoClass = message.isCurrentPlayer ? 'player' : 'opponent';
-
-      return <p className='message'>
-        <span className={'author ' + whoClass}>{who}</span> &nbsp;
-        <span className='hours'>({date.getHours()}:{date.getMinutes()}:{date.getSeconds()})</span> &nbsp;
-        {message.message}
-      </p>;
-    })
-  };
 
   render() {
     if (this.props.redirectToLobby) {
@@ -37,7 +24,7 @@ class Game extends React.Component {
           <Col>
             <Quiz result={this.props.result} catchword={this.props.catchword}/></Col>
           <Col className="chatField" xs="12" sm="3">
-            {this.chatMessagesRenderer(this.props.chatMessages)}
+            <ChatField/>
           </Col>
         </Row>
         <Row><BottomBar yourTurn={this.props.yourTurn}/></Row>
@@ -53,7 +40,6 @@ function mapStateToProps(state) {
     category: state.game.category,
     yourTurn: state.game.yourTurn,
     result: state.game.result,
-    chatMessages: state.chat.messages,
   };
 }
 

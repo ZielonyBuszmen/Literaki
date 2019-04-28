@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Alert } from 'reactstrap';
 import "./Lobby.css";
 import { connect } from "react-redux";
-import { setRedirectToGame } from "../actions";
+import { setRedirectToGame } from "../../actions";
 
 class Lobby extends React.Component {
 
