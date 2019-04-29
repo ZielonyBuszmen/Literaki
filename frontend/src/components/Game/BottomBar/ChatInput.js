@@ -19,17 +19,19 @@ class ChatInput extends React.Component {
 
   render() {
     return (
-      <Container className="ChatInput" fluid>
+      <div className="ChatInput">
         <form>
           <InputGroup>
-            <Input value={this.state.message} onChange={e => this.setState({message: e.target.value})}
-                   placeholder="Wpisz wiadomość"/>
+            <Input value={this.state.message}
+                   onChange={e => this.setState({message: e.target.value})}
+                   placeholder="Wpisz wiadomość"
+            />
             <InputGroupAddon addonType="append">
               <Button type="submit" onClick={this.sendMessage} color="info">-></Button>
             </InputGroupAddon>
           </InputGroup>
         </form>
-      </Container>
+      </div>
     );
   }
 }

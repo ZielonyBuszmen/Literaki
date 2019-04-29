@@ -6,9 +6,8 @@
 }
 
 .player-label {
-    font-size: 16pt;
-    padding-left: 10px;
     color: rgba(252, 252, 252, 0.51);
+    padding: 0 10px;
 }
 
 .Category {
@@ -21,8 +20,9 @@
 .Players {
     border: white 1px solid;
     border-radius: 5px;
-    width: 35%;
     background-color: #094092;
+    padding: 5px 10px;
+    font-size: 16pt;
 }
 
 .ActualRound {

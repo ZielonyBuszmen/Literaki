@@ -7,21 +7,20 @@ class Header extends React.Component {
     const youStyle = this.props.yourTurn ? 'ActualRound' : '';
     const opponentStyle = !this.props.yourTurn ? 'ActualRound' : '';
     return (
-      <Container className="Header" fluid>
-        <Row>
-          <Col>
-            <div className="Players">
-            <b className={'player-label ' + youStyle}>TY</b> :
+      <Row className="Header">
+        <Col md="4" sm="6">
+          <span className="Players">
+            <b className={'player-label ' + youStyle}>TY</b>
+            :
             <b className={'player-label  ' + opponentStyle}>RYWAL</b>
-            </div>
-          </Col>
-          <Col className="Category">
-            {this.props.category}
-          </Col>
-          <Col>
-          </Col>
-        </Row>
-      </Container>
+          </span>
+        </Col>
+        <Col md="4" sm="6" className="Category">
+          {this.props.category}
+        </Col>
+        <Col md='4' className='d-none d-sm-block'>
+        </Col>
+      </Row>
     );
   }
 }

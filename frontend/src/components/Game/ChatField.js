@@ -21,9 +21,9 @@ class ChatField extends React.Component {
 
   render() {
     return (
-      <Container fluid className="mt-3">
+      <div className="mt-3">
         {this.chatMessagesRenderer(this.props.chatMessages)}
-      </Container>
+      </div>
     );
   }
 }

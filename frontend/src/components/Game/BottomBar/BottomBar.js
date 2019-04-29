@@ -22,29 +22,27 @@ class BottomBar extends React.Component {
   render() {
     const inputText = this.props.yourTurn ? this.state.text : 'Poczekaj na swoją turę...';
     return (
-      <Container className="BottomBar" fluid>
-        <Row>
-          <Col xs="4" sm="4">
-            <form>
-              <InputGroup>
-                <Input disabled={!this.props.yourTurn} value={inputText} onChange={(e) => {
-                  this.setState({text: e.target.value})
-                }}/>
-                <InputGroupAddon addonType="append">
-                  <Button type="submit" disabled={!this.props.yourTurn} color="success"
-                          onClick={this.sendLetter}>Wyślij</Button>
-                </InputGroupAddon>
-              </InputGroup>
-            </form>
-          </Col>
-          <Col xs="5" sm="5" className="Round">
-            | &nbsp; <b>Runda {this.props.numberRound}</b>
-          </Col>
-          <Col className="chatInput" xs="3" sm="3">
-            <ChatInput/>
-          </Col>
-        </Row>
-      </Container>
+      <Row className="BottomBar">
+        <Col xs="6" md="4" lg="3">
+          <form>
+            <InputGroup>
+              <Input disabled={!this.props.yourTurn} value={inputText} onChange={(e) => {
+                this.setState({text: e.target.value})
+              }}/>
+              <InputGroupAddon addonType="append">
+                <Button type="submit" disabled={!this.props.yourTurn} color="success"
+                        onClick={this.sendLetter}>Wyślij</Button>
+              </InputGroupAddon>
+            </InputGroup>
+          </form>
+        </Col>
+        <Col xs="6" md="4" lg="6" className="Round">
+          | &nbsp; <b>Runda {this.props.numberRound}</b>
+        </Col>
+        <Col className="chatInput" xs="12" md="4" lg="3">
+          <ChatInput/>
+        </Col>
+      </Row>
     );
   }
 }
