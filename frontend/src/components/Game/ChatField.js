@@ -8,7 +8,7 @@ class ChatField extends React.Component {
   chatMessagesRenderer = (messages) => {
     return messages.map((message) => {
       const date = new Date(message.time * 1000);
-      const who = message.isCurrentPlayer ? 'Ja' : 'Przeciwnik';
+      const who = message.isCurrentPlayer ? 'Ja' : 'Rywal';
       const whoClass = message.isCurrentPlayer ? 'player' : 'opponent';
 
       return <p className='message'>

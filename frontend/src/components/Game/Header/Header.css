@@ -18,7 +18,14 @@
     border-radius: 5px;
 }
 
+.Players {
+    border: white 1px solid;
+    border-radius: 5px;
+    width: 35%;
+    background-color: #094092;
+}
+
 .ActualRound {
-    text-decoration: underline #00cb00;
-    color: #00cb00;
+    color: white;
+    text-shadow: 1px 3px 3px rgb(204, 204, 204), 0 0 0 rgb(55, 55, 55);
 }

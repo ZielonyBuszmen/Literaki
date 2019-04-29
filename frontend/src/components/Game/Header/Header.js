@@ -10,8 +10,10 @@ class Header extends React.Component {
       <Container className="Header" fluid>
         <Row>
           <Col>
-            <b className={'player-label ' + youStyle}>Ty</b> vs
-            <b className={'player-label  ' + opponentStyle}>Przeciwnik</b>
+            <div className="Players">
+            <b className={'player-label ' + youStyle}>TY</b> :
+            <b className={'player-label  ' + opponentStyle}>RYWAL</b>
+            </div>
           </Col>
           <Col className="Category">
             {this.props.category}
