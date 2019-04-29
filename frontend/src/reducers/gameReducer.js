@@ -34,4 +34,4 @@ export const gameReducer = (state = [], action) => {
     default:
       return state;
   }
-}
+};

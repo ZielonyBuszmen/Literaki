@@ -29,5 +29,4 @@ export const store = createStore(reducers, initialStoreState);
 initialStoreState.websocket.websocket.onmessage = (event) => {
   const data = JSON.parse(event.data);
   store.dispatch(data);
-  console.log(data);
 };

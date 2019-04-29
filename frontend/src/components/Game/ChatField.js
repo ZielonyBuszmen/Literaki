@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Col } from "reactstrap";
 import './Game.css';
 import Container from "reactstrap/es/Container";
 
@@ -21,10 +20,9 @@ class ChatField extends React.Component {
   };
 
   render() {
-
     return (
       <Container fluid>
-            {this.chatMessagesRenderer(this.props.chatMessages)}
+        {this.chatMessagesRenderer(this.props.chatMessages)}
       </Container>
     );
   }
@@ -36,9 +34,8 @@ function mapStateToProps(state) {
   };
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-  };
+function mapDispatchToProps() {
+  return {};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChatField);

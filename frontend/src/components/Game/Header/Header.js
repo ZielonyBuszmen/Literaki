@@ -3,9 +3,7 @@ import { Container, Row, Col } from 'reactstrap';
 import "./Header.css";
 
 class Header extends React.Component {
-
   render() {
-
     const youStyle = this.props.yourTurn ? 'ActualRound' : '';
     const opponentStyle = !this.props.yourTurn ? 'ActualRound' : '';
     return (

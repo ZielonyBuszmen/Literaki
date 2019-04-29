@@ -5,6 +5,6 @@ import App from '../App';
 const Root = () =>
   <Router basename={process.env.PUBLIC_URL}>
     <App/>
-  </Router>
+  </Router>;
 
 export default Root;
