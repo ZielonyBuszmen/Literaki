@@ -23,7 +23,7 @@ class BottomBar extends React.Component {
     const inputText = this.props.yourTurn ? this.state.text : 'Poczekaj na swoją turę...';
     return (
       <Row className="BottomBar">
-        <Col xs="6" md="4" lg="3">
+        <Col xs="6" md="5" lg="4">
           <form>
             <InputGroup>
               <Input disabled={!this.props.yourTurn} value={inputText} onChange={(e) => {
@@ -36,7 +36,7 @@ class BottomBar extends React.Component {
             </InputGroup>
           </form>
         </Col>
-        <Col xs="6" md="4" lg="6" className="Round">
+        <Col xs="6" md="3" lg="5" className="Round">
           | &nbsp; <b>Runda {this.props.numberRound}</b>
         </Col>
         <Col className="chatInput" xs="12" md="4" lg="3">
