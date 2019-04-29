@@ -14,6 +14,7 @@ class Lobby extends React.Component {
     }
     return (
       <Container className="Lobby" fluid>
+        <b className={"Literaki"}>LITERAKI</b><br/>
         <Alert color="primary">{info}</Alert>
       </Container>
     );
