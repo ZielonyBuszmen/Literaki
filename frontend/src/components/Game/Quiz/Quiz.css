@@ -1,6 +1,5 @@
 .Quiz {
     text-align: center;
-    padding: 12rem;
     font-size: xx-large;
     letter-spacing: 15px;
     font-family: "Lucida Console", Monaco, monospace;
@@ -23,4 +22,8 @@
     font-family: "Impact", Monaco, serif;
     text-shadow: 2px 4px 4px rgb(204, 204, 204), 0 0 0 rgb(55, 55, 55);
     animation: blink 1s infinite;
+}
+
+.Quiz .catchword {
+    text-transform: uppercase;
 }

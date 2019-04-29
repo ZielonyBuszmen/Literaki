@@ -36,14 +36,15 @@ class GameplayManager:
     async def react_for_action(self, websocket, action: dict):
         type = action["type"]
         if type == actions.FE_SEND_LETTER and websocket == self.actual_player:
-            await self.__player_send_letter(action["value"])
+            letter = action["value"].lower()
+            await self.__player_send_letter(letter)
         elif type == actions.FE_SEND_CHAT_MESSAGE:
             await self.__chat_it(websocket, action["value"])
         elif websocket != self.actual_player:
             await self.__notify_other_player(actions.not_your_turn())
         else:
             print("unsupported action", action)
-            await self.__notify_other_player(actions.unsupported_action())
+            await websocket.send(actions.unsupported_action())
 
     async def __player_send_letter(self, letter: str):
         if len(letter) == 1 and self.__is_letter_in_password(letter):
@@ -51,8 +52,8 @@ class GameplayManager:
             if self.__is_catchword_filled():
                 await self.__notify_actual_player(actions.player_win_game())
                 await self.__notify_other_player(actions.player_lose_game())
-        elif self.__is_proper_catchword(letter):  # "jak sobie poscielesz tak sobie wyspisz"
-            for s in letter: self.__fill_password(s)
+        elif self.__is_proper_catchword(letter):
+            self.broke = letter
             await self.__notify_actual_player(actions.player_win_game())
             await self.__notify_other_player(actions.player_lose_game())
         else:
@@ -71,7 +72,7 @@ class GameplayManager:
         if self.players:
             await asyncio.wait([player.send(message) for player in self.players])
 
-    async def __change_player(self):  # zmienia gracza
+    async def __change_player(self):
         self.players_moves += 1
         await self.__notify_actual_player(actions.player_end_turn())
         await self.__notify_other_player(actions.player_start_turn())

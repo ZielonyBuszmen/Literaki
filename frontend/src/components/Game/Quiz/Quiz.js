@@ -6,14 +6,14 @@ class Quiz extends React.Component {
 
   render() {
     return (
-      <Container className="Quiz" fluid>
-        <Row>
-          <Col xs="12" sm="9">{this.props.catchword}</Col>
+      <div className="Quiz h-100">
+        <Row className='align-items-center h-75'>
+          <Col className='catchword col-6 mx-auto'>{this.props.catchword}</Col>
         </Row>
         <Row>
           <Col className="result">{this.props.result}</Col>
         </Row>
-      </Container>
+      </div>
     );
   }
 }
