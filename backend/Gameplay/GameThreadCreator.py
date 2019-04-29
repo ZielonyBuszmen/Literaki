@@ -10,7 +10,7 @@ class GameThreadCreator:
     def __init__(self, game_manager):
         self.game_manager = game_manager
 
-    async def game_websocket(self, websocket, path):
+    async def __game_websocket(self, websocket, path):
         await websocket.send(actions.game_was_started())
         await self.game_manager.register(websocket)
         try:
@@ -27,5 +27,5 @@ class GameThreadCreator:
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
         loop.run_until_complete(
-            websockets.serve(self.game_websocket, SERVER, port))
+            websockets.serve(self.__game_websocket, SERVER, port))
         loop.run_forever()

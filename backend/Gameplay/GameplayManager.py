@@ -18,15 +18,15 @@ class GameplayManager:
     async def register(self, websocket):
         self.players.add(websocket)
         qty = len(self.players)
-        await self.notify_all_players(actions.new_player_connected(qty))
+        await self.__notify_all_players(actions.new_player_connected(qty))
         if self.actual_player is None:
             self.actual_player = websocket
-            await self.notify_actual_player(actions.player_start_turn())
+            await self.__notify_actual_player(actions.player_start_turn())
 
     async def unregister(self, websocket):
         self.players.remove(websocket)
         qty = len(self.players)
-        await self.notify_all_players(actions.player_disconnected(qty))
+        await self.__notify_all_players(actions.player_disconnected(qty))
 
     async def notify_state(self):
         if self.players:
@@ -36,66 +36,66 @@ class GameplayManager:
     async def react_for_action(self, websocket, action):
         type = action["type"]
         if type == actions.FE_SEND_LETTER and websocket == self.actual_player:
-            await self.player_send_letter(action["value"])
+            await self.__player_send_letter(action["value"])
         elif type == actions.FE_SEND_CHAT_MESSAGE:
-            await self.chat_it(websocket, action["value"])
+            await self.__chat_it(websocket, action["value"])
         elif websocket != self.actual_player:
-            await self.notify_other_player(actions.not_your_turn())
+            await self.__notify_other_player(actions.not_your_turn())
         else:
             print("unsupported action", action)
-            await self.notify_other_player(actions.unsupported_action())
+            await self.__notify_other_player(actions.unsupported_action())
 
-    async def player_send_letter(self, letter):
-        if len(letter) == 1 and self.is_letter_in_password(letter):
-            self.fill_password(letter)
-            if self.is_catchword_filled():
-                await self.notify_actual_player(actions.player_win_game())
-                await self.notify_other_player(actions.player_lose_game())
-        elif self.is_proper_catchword(letter):  # "jak sobie poscielesz tak sobie wyspisz"
-            for s in letter: self.fill_password(s)
-            await self.notify_actual_player(actions.player_win_game())
-            await self.notify_other_player(actions.player_lose_game())
+    async def __player_send_letter(self, letter):
+        if len(letter) == 1 and self.__is_letter_in_password(letter):
+            self.__fill_password(letter)
+            if self.__is_catchword_filled():
+                await self.__notify_actual_player(actions.player_win_game())
+                await self.__notify_other_player(actions.player_lose_game())
+        elif self.__is_proper_catchword(letter):  # "jak sobie poscielesz tak sobie wyspisz"
+            for s in letter: self.__fill_password(s)
+            await self.__notify_actual_player(actions.player_win_game())
+            await self.__notify_other_player(actions.player_lose_game())
         else:
-            await self.change_player()
+            await self.__change_player()
         await self.notify_state()
 
-    async def notify_actual_player(self, message):
+    async def __notify_actual_player(self, message):
         if self.actual_player:
             await self.actual_player.send(message)
 
-    async def notify_other_player(self, message):
+    async def __notify_other_player(self, message):
         if self.actual_player:
             await asyncio.wait([player.send(message) for player in self.players if player != self.actual_player])
 
-    async def notify_all_players(self, message):
+    async def __notify_all_players(self, message):
         if self.players:
             await asyncio.wait([player.send(message) for player in self.players])
 
-    async def change_player(self):  # zmienia gracza
+    async def __change_player(self):  # zmienia gracza
         self.players_moves += 1
-        await self.notify_actual_player(actions.player_end_turn())
-        await self.notify_other_player(actions.player_start_turn())
+        await self.__notify_actual_player(actions.player_end_turn())
+        await self.__notify_other_player(actions.player_start_turn())
         self.actual_player = [player for player in self.players if player != self.actual_player][0]
         round_number = int(self.players_moves / 2) + 1
-        await self.notify_all_players(actions.round_number(round_number))
+        await self.__notify_all_players(actions.round_number(round_number))
 
-    def is_letter_in_password(self, letter):
+    def __is_letter_in_password(self, letter):
         return letter in self.password
 
-    def fill_password(self, letter):
+    def __fill_password(self, letter):
         index = 0
         for password_letter in self.password:
             if password_letter == letter:
                 self.broke = self.broke[:index] + letter + self.broke[index + 1:]
             index += 1
 
-    def is_proper_catchword(self, letters):
+    def __is_proper_catchword(self, letters):
         return self.password.lower() == letters.lower()
 
-    def is_catchword_filled(self):
+    def __is_catchword_filled(self):
         return self.password == self.broke
 
-    async def chat_it(self, websocket, message):
+    async def __chat_it(self, websocket, message):
         actual_time = time.time()
         sender_message = actions.send_chat_message(True, message, actual_time)
         opponent_message = actions.send_chat_message(False, message, actual_time)
