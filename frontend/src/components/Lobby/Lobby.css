@@ -3,3 +3,10 @@
     text-align: center;
     padding: 4em;
 }
+
+.Literaki {
+    font-size: 6rem;
+    color: #0c5cd2;
+    text-shadow: -1px -1px 1px #094092, 1px 1px 1px #06295e;
+
+}
