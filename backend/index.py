@@ -9,7 +9,7 @@ print("Server was started")
 lobby = Lobby()
 
 
-async def main(websocket, path):
+async def main(websocket, path: str):
     await lobby.register_new_player(websocket)
     try:
         async for message in websocket:

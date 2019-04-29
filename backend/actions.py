@@ -23,40 +23,40 @@ FE_SEND_LETTER = 'FE_SEND_LETTER'
 FE_SEND_CHAT_MESSAGE = 'FE_SEND_CHAT_MESSAGE'
 
 
-def new_player_connected(number_of_players):
+def new_player_connected(number_of_players: int) -> str:
     return json.dumps({
         'type': BE_NEW_PLAYER_CONNECTED,
         'number_of_players': number_of_players
     })
 
 
-def player_disconnected(number_of_players):
+def player_disconnected(number_of_players: int) -> str:
     return json.dumps({
         'type': BE_PLAYER_DISCONNECTED,
         'number_of_players': number_of_players
     })
 
 
-def new_thread_was_opened(port):
+def new_thread_was_opened(port: int) -> str:
     return json.dumps({
         'type': BE_NEW_THREAD_WAS_OPENED_TO_YOU,
         'port': port
     })
 
 
-def waiting_for_second_player():
+def waiting_for_second_player() -> str:
     return json.dumps({
         'type': BE_WAITING_FOR_SECOND_PLAYER
     })
 
 
-def game_was_started():
+def game_was_started() -> str:
     return json.dumps({
         'type': BE_GAME_WAS_STARTED
     })
 
 
-def send_game_state(catchword, category):
+def send_game_state(catchword: str, category: str) -> str:
     return json.dumps({
         'type': BE_GAME_STATE,
         'catchword': catchword,
@@ -64,50 +64,50 @@ def send_game_state(catchword, category):
     })
 
 
-def player_end_turn():
+def player_end_turn() -> str:
     return json.dumps({
         'type': BE_END_OF_YOUR_TURN
     })
 
 
-def player_start_turn():
+def player_start_turn() -> str:
     return json.dumps({
         'type': BE_START_OF_YOUR_TURN
     })
 
 
-def player_lose_game():
+def player_lose_game() -> str:
     return json.dumps({
         'type': BE_YOU_LOSE_THE_GAME
     })
 
 
-def player_win_game():
+def player_win_game() -> str:
     return json.dumps({
         'type': BE_YOU_WIN_THE_GAME
     })
 
 
-def not_your_turn():
+def not_your_turn() -> str:
     return json.dumps({
         'type': BE_NOT_YOUR_TURN
     })
 
 
-def unsupported_action():
+def unsupported_action() -> str:
     return json.dumps({
         'type': BE_UNSUPPORTED_ACTION
     })
 
 
-def round_number(value):
+def round_number(value: int) -> str:
     return json.dumps({
         'type': BE_ROUND_NUMBER,
         'value': value
     })
 
 
-def send_chat_message(isCurrentPlayer, message, time):
+def send_chat_message(isCurrentPlayer: bool, message: str, time: float) -> str:
     return json.dumps({
         'type': BE_CHAT_MESSAGE,
         'isCurrentPlayer': isCurrentPlayer,
