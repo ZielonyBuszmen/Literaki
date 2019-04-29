@@ -5,29 +5,33 @@
 ### Backend
 
 - Backend napisany jest w Pythonie, dlatego wymaga zainstaowanego interpretera w wersji przynajmniej `3.7`. Interpreter można pobrać stąd: https://www.python.org/downloads/
-- Dodatkowo, potrzebujemy zainstalowanej biblioteki `websockets`:
+- Dodatkowo, potrzebujemy zainstalowanej biblioteki `websockets`. Zainstalujemy ją komendą:
 ```
 pip install websockets
 ```
 
 ### Frontend
-- todo
+- Frontend napisany został w React.js. Wymagany jest zaintalowany serwer node.js wraz z npm: https://nodejs.org/en/download/. Dodatkowo musimy mieć zainstalowanego w systemie `yarna`: https://yarnpkg.com/
+- Aby zainstalować wszystkie zależności, przechodzimy do katalogu `frontend` i wykonujemy komendę `yarn install`:
+ 
+ ```
+ cd frontend
+ yarn install
+ ```
 
-
-## Uruhomienie
+## Uruchomienie
 - **Backend (serwer)** - serwer uruchomimy komendą
 ```
 python run.py 
 ```
-- **Frontend (klient)** - klienta uruchomimy komendą: 
+
+- **Frontend (klient)** - aby uruchomić klienta, przechodzimy do folderu `frontend` i wykonujemy polecenie `yarn start`: 
 ```
-todo
+cd frontend
+yarn start
 ```
 
-
-
-## Ważne info do backendu w pythonie:
-- Każdą funkcję, która ma w definicji `async` trzeba wywoływać se słówkiem kluczowym `await`
-- Każda funkcja, która używa innej funkcji z `await`, musi mieć prefix w definicji `async`
-
-- Lobby to poczekalnia, gdzie parujemy graczy
+- Istnieje możliwość uruchomienia całości jedną komendą. Na windowsie będzie to:
+```
+run.bat
+```
