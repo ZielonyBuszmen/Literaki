@@ -42,13 +42,13 @@ class Lobby:
         await first_player.send(new_thread_was_opened(port))
         await second_player.send(new_thread_was_opened(port))
 
-    async def __notify_all_players(self, message):
+    async def __notify_all_players(self, message: str):
         if self.players:
             await asyncio.wait([player.send(message) for player in self.players])
 
-    def __count_players(self):
+    def __count_players(self) -> int:
         return len(self.players)
 
-    def __get_increased_port(self):
+    def __get_increased_port(self) -> int:
         self.port += 1
         return self.port
