@@ -1,6 +1,8 @@
+import { BE_CHAT_MESSAGE } from "../actions";
+
 export const chatReducer = (state = [], action) => {
   switch (action.type) {
-    case 'BE_CHAT_MESSAGE':
+    case BE_CHAT_MESSAGE:
       return {
         ...state,
         messages: [...state.messages, {
