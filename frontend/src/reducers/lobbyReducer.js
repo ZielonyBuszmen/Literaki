@@ -1,4 +1,8 @@
-import { BE_NEW_PLAYER_CONNECTED, BE_NEW_THREAD_WAS_OPENED_TO_YOU, BE_WAITING_FOR_SECOND_PLAYER } from "../actions";
+import {
+  BE_NEW_PLAYER_CONNECTED,
+  BE_NEW_THREAD_WAS_OPENED_TO_YOU,
+  BE_WAITING_FOR_SECOND_PLAYER,
+} from "../actions";
 
 export const lobbyReducer = (state = [], action) => {
   switch (action.type) {
