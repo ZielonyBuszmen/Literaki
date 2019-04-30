@@ -1,10 +1,11 @@
 import { SERVER } from "../consts";
 import { store } from "../store";
+import { BE_NEW_THREAD_WAS_OPENED_TO_YOU } from "../actions";
 
 
 export const websocketReducer = (state = [], action) => {
   switch (action.type) {
-    case 'BE_NEW_THREAD_WAS_OPENED_TO_YOU':
+    case BE_NEW_THREAD_WAS_OPENED_TO_YOU:
       const createWebsocket = new WebSocket(`ws://${SERVER}:${action.port}/`);
       createWebsocket.onmessage = (event) => {
         const data = JSON.parse(event.data);
