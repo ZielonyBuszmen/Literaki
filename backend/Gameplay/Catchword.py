@@ -11,8 +11,8 @@ class Catchword:
     def get_broke(self) -> str:
         return self.broke
 
-    def set_broke(self, broke) -> None:
-        self.broke = broke
+    def set_broke(self) -> None:
+        self.broke = self.catchword
 
     def get_category(self) -> str:
         return self.catchword_category

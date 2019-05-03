@@ -54,7 +54,7 @@ class GameplayManager:
                 await self.__notify_actual_player(actions.player_win_game())
                 await self.__notify_other_player(actions.player_lose_game())
         elif self.catchword.is_correct_catchword(letter):
-            self.catchword.set_broke(letter)
+            self.catchword.set_broke()
             await self.__notify_actual_player(actions.player_win_game())
             await self.__notify_other_player(actions.player_lose_game())
         else:
