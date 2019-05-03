@@ -24,6 +24,34 @@
     animation: blink 1s infinite;
 }
 
+@keyframes slide {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-8%);
+    }
+}
+
+@-webkit-keyframes slide {
+    0% {
+        -webkit-transform: translateX(0);
+        padding-left: 110%;
+    }
+    100% {
+        -webkit-transform: translateX(-8%);
+        padding-left: 110%;
+    }
+}
+
+.infoTurn {
+    font-size: x-large;
+    color: #0c5cd2;
+    font-family: "Impact", Monaco, serif;
+    text-shadow: 2px 4px 4px rgb(204, 204, 204), 0 0 0 rgb(55, 55, 55);
+    animation: slide 1800ms ease-in-out 3s infinite alternate none running;;
+}
+
 .Quiz .catchword {
     text-transform: uppercase;
 }

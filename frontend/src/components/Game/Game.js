@@ -22,7 +22,7 @@ class Game extends React.Component {
         <Header category={this.props.category} yourTurn={this.props.yourTurn}/>
         <Row className="GameContent">
           <Col className='h-100' xs="7" md="8" lg="9">
-            <Quiz result={this.props.result} catchword={this.props.catchword}/>
+            <Quiz result={this.props.result} catchword={this.props.catchword} yourTurn={this.props.yourTurn}/>
           </Col>
           <Col className="chatField" xs="5" md="4" lg="3">
             <ChatField/>
