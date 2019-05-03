@@ -1,8 +1,8 @@
 import asyncio
-import time
 
 from backend import actions
 from backend.Gameplay import game_helpers
+from backend.Gameplay.Chat import Chat
 
 
 class GameplayManager:
@@ -14,6 +14,7 @@ class GameplayManager:
         self.actual_player = None
         self.players_moves = 0
         self.players = set()
+        self.chat = Chat()
 
     async def register(self, websocket):
         self.players.add(websocket)
@@ -34,12 +35,15 @@ class GameplayManager:
             await asyncio.wait([user.send(message) for user in self.players])
 
     async def react_for_action(self, websocket, action: dict):
+        if len(self.players) < 2:
+            return
         type = action["type"]
         if type == actions.FE_SEND_LETTER and websocket == self.actual_player:
             letter = action["value"].lower()
             await self.__player_send_letter(letter)
         elif type == actions.FE_SEND_CHAT_MESSAGE:
-            await self.__chat_it(websocket, action["value"])
+            second_player = self.__get_second_player(websocket)
+            await self.chat.chat_it(websocket, second_player, action["value"])
         elif websocket != self.actual_player:
             await self.__notify_other_player(actions.not_your_turn())
         else:
@@ -96,9 +100,5 @@ class GameplayManager:
     def __is_catchword_filled(self) -> bool:
         return self.password == self.broke
 
-    async def __chat_it(self, websocket, message: str):
-        actual_time = time.time()
-        sender_message = actions.send_chat_message(True, message, actual_time)
-        opponent_message = actions.send_chat_message(False, message, actual_time)
-        await websocket.send(sender_message)
-        await asyncio.wait([player.send(opponent_message) for player in self.players if player != websocket])
+    def __get_second_player(self, current_player):
+        return [player for player in self.players if player != current_player][0]
