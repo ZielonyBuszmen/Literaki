@@ -1,4 +1,9 @@
-import {BE_CHAT_MESSAGE, BE_PLAYER_DISCONNECTED} from "../actions";
+import {
+    BE_CHAT_MESSAGE,
+    BE_PLAYER_DISCONNECTED_FROM_GAMEPLAY
+} from "../actions";
+
+export const GAME_END = 'GAME_END';
 
 export const chatReducer = (state = [], action) => {
     switch (action.type) {
@@ -11,11 +16,10 @@ export const chatReducer = (state = [], action) => {
                     message: action.message
                 }],
             };
-            case BE_PLAYER_DISCONNECTED:
+            case BE_PLAYER_DISCONNECTED_FROM_GAMEPLAY:
             return {
                 messages: [...state.messages, {
-                    time: '',
-                    message: 'Twój przeciwnik opuścił grę. Aby zacząć nową grę odśwież stronę.'
+                    message: GAME_END
                 }],
             };
         default:

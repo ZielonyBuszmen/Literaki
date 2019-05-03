@@ -26,7 +26,7 @@ class GameplayManager:
     async def unregister(self, websocket):
         self.players.remove(websocket)
         qty = len(self.players)
-        await self.__notify_all_players(actions.player_disconnected(qty))
+        await self.__notify_all_players(actions.player_disconnected_from_gameplay(qty))
 
     async def notify_state(self):
         if self.players:

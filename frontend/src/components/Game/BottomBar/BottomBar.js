@@ -13,7 +13,7 @@ class BottomBar extends React.Component {
 
   sendLetter = (e) => {
     e.preventDefault();
-    
+
     if (this.state.text.length > 0) {
       this.props.websocket.send(JSON.stringify(sendLetter(this.state.text)));
       this.setState({text: ''});
