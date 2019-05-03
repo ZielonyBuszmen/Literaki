@@ -13,6 +13,7 @@ export const BE_YOU_LOSE_THE_GAME = 'BE_YOU_LOSE_THE_GAME';
 export const BE_YOU_WIN_THE_GAME = 'BE_YOU_WIN_THE_GAME';
 export const BE_ROUND_NUMBER = 'BE_ROUND_NUMBER';
 export const BE_CHAT_MESSAGE = 'BE_CHAT_MESSAGE';
+export const BE_PLAYER_DISCONNECTED = 'BE_PLAYER_DISCONNECTED';
 
 export const setRedirectToGame = (value) => ({
   type: REDIRECT_TO_GAME,

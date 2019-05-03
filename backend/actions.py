@@ -33,7 +33,7 @@ def new_player_connected(number_of_players: int) -> str:
 def player_disconnected(number_of_players: int) -> str:
     return json.dumps({
         'type': BE_PLAYER_DISCONNECTED,
-        'number_of_players': number_of_players
+        'number_of_players': number_of_players,
     })
 
 

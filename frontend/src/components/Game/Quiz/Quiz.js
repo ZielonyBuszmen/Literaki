@@ -15,7 +15,7 @@ class Quiz extends React.Component {
                     <Col className="result">{this.props.result}</Col>
                 </Row>
                 <Row>
-                    <Col id="blok" className="infoTurn">{infoTurn}</Col>
+                    <Col className="infoTurn">{infoTurn}</Col>
                 </Row>
             </div>
         );

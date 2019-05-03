@@ -36,3 +36,9 @@ body {
 .message .author.opponent {
     color: red;
 }
+
+.message .noActive {
+    color: #757575;
+    font-size: 95%;
+    font-style: italic;
+}
