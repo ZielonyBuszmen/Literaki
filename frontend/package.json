@@ -1,6 +1,6 @@
 {
-  "name": "new_react_app",
-  "version": "0.1.0",
+  "name": "literaki",
+  "version": "1.0",
   "private": true,
   "dependencies": {
     "bootstrap": "^4.3.1",
@@ -11,6 +11,9 @@
     "react-scripts": "2.1.8",
     "reactstrap": "^8.0.0",
     "redux": "^4.0.1"
+  },
+  "devDependencies": {
+    "react-router": "^5.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -26,8 +29,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "react-router": "^5.0.0"
-  }
+  ]
 }
