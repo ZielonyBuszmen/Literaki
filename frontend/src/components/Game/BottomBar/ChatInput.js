@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, InputGroup, Input, InputGroupAddon, Button } from 'reactstrap';
+import { InputGroup, Input, InputGroupAddon, Button } from 'reactstrap';
 import { connect } from "react-redux";
 import { sendMessage } from "../../../actions";
 

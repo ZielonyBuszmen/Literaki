@@ -115,4 +115,28 @@ CATCHWORDS = [
         category: 'Czas',
         catchword: 'choćbyś uciekał przez góry, las – śmierć do ciebie zdąży na czas.',
     },
+    {
+        category: 'Przysłowie',
+        catchword: 'kto pod kim dołki kopie, ten sam w nie wpada.',
+    },
+    {
+        category: 'Przysłowie',
+        catchword: 'ziarnko do ziarnka i uzbiera się miarka.',
+    },
+    {
+        category: 'Przysłowie',
+        catchword: 'co dwie głowy, to nie jedna.',
+    },
+    {
+        category: 'Przysłowie',
+        catchword: 'jak kuba bogu, tak bóg kubie.',
+    },
+    {
+        category: 'Przysłowie',
+        catchword: 'ten się śmieje, kto się śmieje ostatni.',
+    },
+    {
+        category: 'Przysłowie',
+        catchword: 'żeby kózka nie skakała, to by nóżki nie złamała.',
+    },
 ]

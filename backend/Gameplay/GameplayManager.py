@@ -1,19 +1,17 @@
 import asyncio
-import time
 
 from backend import actions
-from backend.Gameplay import game_helpers
+from backend.Gameplay.Catchword import Catchword
+from backend.Gameplay.Chat import Chat
 
 
 class GameplayManager:
     def __init__(self):
-        random_password = game_helpers.get_random_catchword()
-        self.password = random_password['catchword']
-        self.password_category = random_password['category']
-        self.broke = game_helpers.get_catchword_mock(self.password)
+        self.catchword = Catchword()
         self.actual_player = None
         self.players_moves = 0
         self.players = set()
+        self.chat = Chat()
 
     async def register(self, websocket):
         self.players.add(websocket)
@@ -30,16 +28,19 @@ class GameplayManager:
 
     async def notify_state(self):
         if self.players:
-            message = actions.send_game_state(self.broke, self.password_category)
+            message = actions.send_game_state(self.catchword.get_broke(), self.catchword.get_category())
             await asyncio.wait([user.send(message) for user in self.players])
 
     async def react_for_action(self, websocket, action: dict):
+        if len(self.players) < 2:
+            return
         type = action["type"]
         if type == actions.FE_SEND_LETTER and websocket == self.actual_player:
             letter = action["value"].lower()
             await self.__player_send_letter(letter)
         elif type == actions.FE_SEND_CHAT_MESSAGE:
-            await self.__chat_it(websocket, action["value"])
+            second_player = self.__get_second_player(websocket)
+            await self.chat.chat_it(websocket, second_player, action["value"])
         elif websocket != self.actual_player:
             await self.__notify_other_player(actions.not_your_turn())
         else:
@@ -47,13 +48,13 @@ class GameplayManager:
             await websocket.send(actions.unsupported_action())
 
     async def __player_send_letter(self, letter: str):
-        if len(letter) == 1 and self.__is_letter_in_password(letter):
-            self.__fill_password(letter)
-            if self.__is_catchword_filled():
+        if len(letter) == 1 and self.catchword.is_letter_in(letter):
+            self.catchword.fill_catchword(letter)
+            if self.catchword.is_catchword_filled():
                 await self.__notify_actual_player(actions.player_win_game())
                 await self.__notify_other_player(actions.player_lose_game())
-        elif self.__is_proper_catchword(letter):
-            self.broke = letter
+        elif self.catchword.is_correct_catchword(letter):
+            self.catchword.set_broke(letter)
             await self.__notify_actual_player(actions.player_win_game())
             await self.__notify_other_player(actions.player_lose_game())
         else:
@@ -80,25 +81,5 @@ class GameplayManager:
         round_number = int(self.players_moves / 2) + 1
         await self.__notify_all_players(actions.round_number(round_number))
 
-    def __is_letter_in_password(self, letter: str) -> bool:
-        return letter in self.password
-
-    def __fill_password(self, letter: str) -> None:
-        index = 0
-        for password_letter in self.password:
-            if password_letter == letter:
-                self.broke = self.broke[:index] + letter + self.broke[index + 1:]
-            index += 1
-
-    def __is_proper_catchword(self, letters: str) -> bool:
-        return self.password.lower() == letters.lower()
-
-    def __is_catchword_filled(self) -> bool:
-        return self.password == self.broke
-
-    async def __chat_it(self, websocket, message: str):
-        actual_time = time.time()
-        sender_message = actions.send_chat_message(True, message, actual_time)
-        opponent_message = actions.send_chat_message(False, message, actual_time)
-        await websocket.send(sender_message)
-        await asyncio.wait([player.send(opponent_message) for player in self.players if player != websocket])
+    def __get_second_player(self, current_player):
+        return [player for player in self.players if player != current_player][0]

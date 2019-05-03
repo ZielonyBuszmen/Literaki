@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Container, Row, InputGroup, Input, InputGroupAddon, Button } from 'reactstrap';
+import { Col, Row, InputGroup, Input, InputGroupAddon, Button } from 'reactstrap';
 import "./BottomBar.css";
 import { connect } from "react-redux";
 import { sendLetter } from "../../../actions";
